@@ -28,10 +28,16 @@ const Image = styled.img`
 `
 
 const DrawerContent = styled(Box)`
-    min-width: 600px;
-    position: relative;
-    box-sizing: border-box;
-    padding: 12px;
+    && {
+        min-width: 768px;
+        position: relative;
+        box-sizing: border-box;
+        padding: 12px;
+        @media (max-width: 768px) {
+            min-width: 99vw;
+        }
+    }
+
 `
 
 export default function Navigation() {
