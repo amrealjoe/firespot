@@ -3,9 +3,9 @@ import styled from "styled-components"
 import logo from "@assets/firespot.svg"
 import { AppBar, Box, Drawer, Tooltip, IconButton, Toolbar } from '@mui/material';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import CloseIcon from '@mui/icons-material/Close';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import Header from './navigation/Header';
 
 const AppBarBox = styled(AppBar)`
     && {
@@ -33,13 +33,6 @@ const DrawerContent = styled(Box)`
     box-sizing: border-box;
     padding: 12px;
 `
-const CloseBtn = styled(IconButton)`
-    && {
-        position: absolute;
-        right: 4px;
-        top: 4px;
-    }
-`
 
 export default function Navigation() {
     const [open, setOpen] = useState(false)
@@ -57,9 +50,10 @@ export default function Navigation() {
                         edge="start"
                         color="inherit"
                         aria-label="help & FAQ"
+                        onClick={handleOpen}
                     >
                         <Tooltip title="Help & FAQ">
-                            <HelpOutlineIcon onClick={(handleOpen)} />
+                            <HelpOutlineIcon />
                         </Tooltip>
                     </IconButton>
                 </ToolbarBox>
@@ -69,9 +63,7 @@ export default function Navigation() {
                 anchor={"right"}
                 onClose={() => setOpen(false)}>
                 <DrawerContent>
-                    <CloseBtn onClick={handleOpen}>
-                        <CloseIcon />
-                    </CloseBtn>
+                    <Header handleOpen={handleOpen} />
                 </DrawerContent>
             </Drawer>
         </Box>
