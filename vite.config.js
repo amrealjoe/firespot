@@ -1,40 +1,7 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import path from "path"
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  resolve: {
-    alias: [
-      {
-        find: "@components",
-        replacement: path.resolve(__dirname, "src/components"),
-      },
-      {
-        find: "@hooks",
-        replacement: path.resolve(__dirname, "src/hooks"),
-      },
-      {
-        find: "@contexts",
-        replacement: path.resolve(__dirname, "src/contexts"),
-      },
-      {
-        find: "@helpers",
-        replacement: path.resolve(__dirname, "src/helpers"),
-      },
-      {
-        find: "@config",
-        replacement: path.resolve(__dirname, "src/config"),
-      },
-      {
-        find: "@assets",
-        replacement: path.resolve(__dirname, "src/assets"),
-      },
-    ],
-  },
-  server: {
-    port: 5050,
-    open: true,
-  },
-});
+})
