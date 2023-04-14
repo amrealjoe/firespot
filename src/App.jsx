@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import Navigation from '@/Navigation'
+import { Routes, Outlet, Route } from "react-router-dom"
+import Home from '@pages/Home'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -7,9 +9,12 @@ function App() {
   return (
     <>
       <Navigation />
-      <h1>FIRESPOT</h1>
-      <p>Fire Detection app for everyone</p>
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+      <Outlet />
     </>
+
   )
 }
 
