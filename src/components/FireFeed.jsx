@@ -3,22 +3,23 @@ import Papa from "papaparse"
 import { useState } from 'react'
 import { useEffect } from 'react'
 import styled from "styled-components"
+import { useLocation } from 'react-router-dom'
 const url = "https://firms.modaps.eosdis.nasa.gov/api/country/csv/cdf3746fd8e186717bf4fafb16361b8a/VIIRS_SNPP_NRT/LBR/1"
+
 function FireFeed() {
+    const location = useLocation()
     const [data, setData] = useState([])
     useEffect(() => {
-
         const response = fetch(url)
             .then(response => response.text())
             .then(v => Papa.parse(v, {
                 header: true,
             }))
             .catch(err => console.log(err))
-        response.then(v => setData(v.data))
-
-        return () => { }
-    }, [])
-    console.log(data)
+        response.then(v => setData(...data, v.data))
+        //FIXME: Remove this console.log
+        console.log(data)
+    }, [location])
 
     const Block = styled.div`
         border: thin solid blue;
