@@ -7,6 +7,7 @@ import { Box, Container } from '@mui/material';
 import Map from '@/Map';
 import MediaQuery from "react-responsive";
 import { useMediaQuery } from 'react-responsive'
+import Header from '@/Header';
 
 const Item = styled(Paper)`
     && {
@@ -18,11 +19,9 @@ function Home() {
     const isDesktopOrLaptop = useMediaQuery({ query: '(min-width: 1224px)' })
     const isBigScreen = useMediaQuery({ query: '(min-width: 1824px)' })
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
-    // const isPortrait = useMediaQuery({ query: '(orientation: portrait)' })
-    // const isRetina = useMediaQuery({ query: '(min-resolution: 2dppx)' })
     return (
         <Container maxWidth={'lg'}>
-            <h1>Header is coming here</h1>
+            <Header />
             <Grid container spacing={1}>
                 {
                     isDesktopOrLaptop && (
