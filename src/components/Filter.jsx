@@ -37,7 +37,6 @@ function Filter() {
 
     useEffect(() => {
         let newCounty = window.localStorage.getItem('fire_county')
-        console.log("New County:" + newCounty)
         if (newCounty) {setCounty(newCounty)}
         setCounty("Monsterrado")
     }, [location])
