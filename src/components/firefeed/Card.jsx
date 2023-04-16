@@ -42,7 +42,12 @@ const Button = styled(MuiButton)`
         display: flex;
         align-items: center;
         padding: 4px 8px;
-        gap: 6px;
+        gap: 8px;
+    }
+
+    &&:hover {
+        background-color: #1f1f1f;
+
     }
 `
 
@@ -110,12 +115,12 @@ function Card() {
                         </ActiveFire>
                         Active Fire
                     </Button>
-                    <Button variant='contained'>
+                    {/* <Button variant='contained'>
                         <Hotspot>
                             90c
                         </Hotspot>
-                        Active Fire
-                    </Button>
+                        Hotspot
+                    </Button> */}
                 </HeadBox>
                 <Location variant='h5'>14 Street Sinkor, Monrovia, Liberia</Location>
                 <Stack>

@@ -1,9 +1,32 @@
 import React from 'react'
+import GoogleMap from 'google-map-react'
+import styled from 'styled-components'
 
-function Map() {
+const MainBox = styled.div`
+    min-width: 100%;
+    min-height: 100%;
+`
+
+function Map({center, zoom }) {
     return (
-        <div>Map</div>
+        <MainBox>
+            <GoogleMap
+                bootstrapURLKeys={{ key: "" }}
+                defaultCenter={center}
+                defaultZoom={zoom}
+            >
+
+            </GoogleMap>
+        </MainBox>
     )
+}
+
+Map.defaultProps = {
+    center: {
+        lat: 5.43952,
+        lgn: -8.0415
+    },
+    zoom: 10
 }
 
 export default Map

@@ -22,11 +22,16 @@ function FireFeed() {
                 header: true,
             }))
             .catch(err => console.log(err))
-        response.then(v => setData(...data, v.data))
+        response.then(v => setData(v.data))
     }, [location])
 
     return (
         <MainBox>
+            <Card/>
+            <Card/>
+            <Card/>
+            <Card/>
+            <Card/>
             <Card/>
             <Card/>
             <Card/>
