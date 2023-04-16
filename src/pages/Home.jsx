@@ -9,10 +9,23 @@ import MediaQuery from "react-responsive";
 import { useMediaQuery } from 'react-responsive'
 import Header from '@/Header';
 
-const Item = styled(Paper)`
+const MainBox = styled(Container)`
     && {
-        min-height: 780px;
+        position: relative;
     }
+`
+
+const FeedBox = styled.div`
+    background-color: transparent;
+    min-height: 180vh;
+`
+const MapBox = styled.div`
+    background-color: transparent;
+    border: thin solid lightgray;
+    min-height: 80vh;
+    position: sticky;
+    right: 0;
+    top:0;
 `
 
 function Home() {
@@ -20,22 +33,22 @@ function Home() {
     const isBigScreen = useMediaQuery({ query: '(min-width: 1824px)' })
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
     return (
-        <Container maxWidth={'lg'}>
+        <MainBox maxWidth={'lg'}>
             <Header />
             <Grid container spacing={1}>
                 {
                     isDesktopOrLaptop && (
                         <>
                             <Grid item xs={5} >
-                                <Item>
+                                <FeedBox>
                                     <FireFeed />
-                                </Item>
+                                </FeedBox>
                             </Grid>
 
                             <Grid item xs={7}>
-                                <Item>
+                                <MapBox>
                                     <Map />
-                                </Item>
+                                </MapBox>
                             </Grid>
                         </>
                     )
@@ -44,15 +57,15 @@ function Home() {
                     isTabletOrMobile && (
                         <>
                             <Grid item xs={12}>
-                                <Item>
+                                <FeedBox>
                                     <FireFeed />
-                                </Item>
+                                </FeedBox>
                             </Grid>
                         </>
                     )
                 }
             </Grid>
-        </Container>
+        </MainBox>
     )
 }
 

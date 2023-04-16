@@ -5,7 +5,13 @@ import { useEffect } from 'react'
 import styled from "styled-components"
 import { useLocation } from 'react-router-dom'
 const url = "https://firms.modaps.eosdis.nasa.gov/api/country/csv/cdf3746fd8e186717bf4fafb16361b8a/VIIRS_SNPP_NRT/LBR/1"
+import Card from './firefeed/Card'
 
+const MainBox = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 17px;
+`
 function FireFeed() {
     const location = useLocation()
     const [data, setData] = useState([])
@@ -17,28 +23,14 @@ function FireFeed() {
             }))
             .catch(err => console.log(err))
         response.then(v => setData(...data, v.data))
-        //FIXME: Remove this console.log
-        console.log(data)
     }, [location])
 
-    const Block = styled.div`
-        border: thin solid blue;
-        border-radius: 12px;
-        padding: 4px;
-        `
-
-    const Small = styled.small`
-    margin: 2px;
-    border: thin solid white;
-`
-
-    const Container = styled.main`
-    padding: 12px;
-`
-
     return (
-        <Container>
-            {
+        <MainBox>
+            <Card/>
+            <Card/>
+            <Card/>
+            {/* {
                 data.map(item => (
                     <Block>
                         <Small>Date: {item?.acq_date}</Small>
@@ -58,8 +50,8 @@ function FireFeed() {
                         <Small>Version: {item?.version}</Small>
                     </Block>
                 ))
-            }
-        </Container>
+            } */}
+        </MainBox>
     )
 }
 
