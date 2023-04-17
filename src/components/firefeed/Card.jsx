@@ -1,22 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
-    LocalFireDepartmentRounded,
-    LocationOn, ShareRounded } from '@mui/icons-material'
+    LocalFireDepartmentRounded, FacebookRounded,
+    LocationOn, ShareRounded, LightModeRounded
+} from '@mui/icons-material'
 import MainBox, {
     ActiveFire, Button, HeadBox, Hotspot,
-    IconWrap, Location, Stack
+    IconWrap, Location, Stack, Menu, MenuItem
 } from './components'
 
 
 function Card() {
 
-    const handleShare = () => {
-        navigator.share({
-            url: "this url",
-            title: "The title",
-            text: "The body"
-        })
-    }
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const handleOpen = (event) => { setAnchorEl(event.currentTarget); };
+    const handleClose = () => { setAnchorEl(null); };
 
     return (
         <>
@@ -28,12 +26,12 @@ function Card() {
                         </ActiveFire>
                         Active Fire
                     </Button>
-                    {/* <Button variant='contained'>
+                    <Button variant='contained'>
                         <Hotspot>
-                            90c
+                            <LightModeRounded />
                         </Hotspot>
                         Hotspot
-                    </Button> */}
+                    </Button>
                 </HeadBox>
                 <Location variant='h5'>14 Street Sinkor, Monrovia, Liberia</Location>
                 <Stack>
@@ -43,12 +41,43 @@ function Card() {
                         </IconWrap>
                         Monsterrado County
                     </Button>
-                    <Button variant='contained' onClick={handleShare}>
+                    <Button
+                        variant='contained'
+                        aria-controls={open ? 'share-menu' : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={open ? 'true' : undefined}
+                        onClick={handleOpen}
+                    >
                         <IconWrap>
                             <ShareRounded />
                         </IconWrap>
                         Share
                     </Button>
+                    <Menu
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={handleClose}
+                        MenuListProps={{
+                            'aria-labelledby': 'share-button',
+                        }}
+                    >
+                        <MenuItem onClick={handleClose}>
+                            <IconWrap>
+                                <FacebookRounded />
+                            </IconWrap>
+                            Facebook
+                        </MenuItem>
+                        <MenuItem onClick={handleClose}>
+                            <IconWrap>
+                                <ShareRounded />
+                            </IconWrap>
+                            WhatsApp</MenuItem>
+                        <MenuItem onClick={handleClose}>
+                            <IconWrap>
+                                <ShareRounded />
+                            </IconWrap>
+                            Twitter</MenuItem>
+                    </Menu>
                 </Stack>
             </MainBox>
         </>

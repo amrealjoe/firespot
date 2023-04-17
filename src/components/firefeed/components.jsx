@@ -1,6 +1,8 @@
-import { Alert, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 import MuiButton from "@mui/material/Button"
 import styled from 'styled-components'
+import MuiMenu from '@mui/material/Menu';
+import MuiMenuItem from '@mui/material/MenuItem';
 
 export const MainBox = styled.div`
     border-radius: 17px;
@@ -99,7 +101,29 @@ export const Hotspot = styled(ActiveFire)`
 
         border:1.2px solid #FFC611;
         }
-    
+`
+
+export const Menu = styled(MuiMenu)`
+    && > .MuiMenu-paper {
+        min-width: 140px;
+        color: rgba(255, 255, 255, 0.87);
+        background-color: #0f0f0f;
+        font-size: medium;
+    }
+`
+export const MenuItem = styled(MuiMenuItem)`
+    && {
+        border-radius: 10px;
+        margin: 4px;
+        background-color: black;
+        font-size: small;
+        display: flex;
+        gap: 8px;
+    }
+     &&:hover {
+        background-color: black;
+     }
+
 `
 
 export default MainBox

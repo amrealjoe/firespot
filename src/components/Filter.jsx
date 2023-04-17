@@ -36,9 +36,9 @@ const ShowMore = styled(MuiButton)`
 `
 
 function Filter() {
-    const [anchorEl, setAnchorEl] = useState(null);
     const initCounty = window.localStorage.getItem('fire_county') ? window.localStorage.getItem('fire_county') : "Monsterrado"
     const [county, setCounty] = useState(initCounty)
+    const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => { setAnchorEl(event.currentTarget); };
     const handleClose = () => { setAnchorEl(null); };
