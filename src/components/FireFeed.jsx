@@ -6,11 +6,29 @@ import styled from "styled-components"
 import { useLocation } from 'react-router-dom'
 const url = "https://firms.modaps.eosdis.nasa.gov/api/country/csv/cdf3746fd8e186717bf4fafb16361b8a/VIIRS_SNPP_NRT/LBR/1"
 import Card from './firefeed/Card'
+import { Button } from '@mui/material'
+import { ExpandMoreRounded } from '@mui/icons-material'
 
 const MainBox = styled.div`
     display: flex;
     flex-direction: column;
     gap: 17px;
+    position: relative;
+`
+
+const LoadMore = styled(Button)`
+    && {
+        min-height: 100%;
+        padding: 12px;
+        text-align: center;
+        background-color: #040404;
+        text-transform: capitalize;
+        color: #d5d5d5;
+        border-radius: unset;
+    }
+    &&:hover {
+        background-color: #040404;
+    }
 `
 function FireFeed() {
     const location = useLocation()
@@ -22,7 +40,7 @@ function FireFeed() {
                 header: true,
             }))
             .catch(err => console.log(err))
-        response.then(v => setData(v.data))
+        response.then(v => setData(...data, v.data))
     }, [location])
 
     return (
@@ -34,7 +52,11 @@ function FireFeed() {
             <Card/>
             <Card/>
             <Card/>
-            <Card/>
+            <Card />
+            <LoadMore>
+                Load More
+                <ExpandMoreRounded />
+            </LoadMore>
             {/* {
                 data.map(item => (
                     <Block>
