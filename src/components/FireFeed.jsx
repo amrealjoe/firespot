@@ -6,7 +6,7 @@ import styled from "styled-components"
 import { useLocation } from 'react-router-dom'
 const url = "https://firms.modaps.eosdis.nasa.gov/api/country/csv/cdf3746fd8e186717bf4fafb16361b8a/VIIRS_SNPP_NRT/LBR/1"
 import Card from './firefeed/Card'
-import { Button } from '@mui/material'
+import { Button, CircularProgress } from '@mui/material'
 import { ExpandMoreRounded } from '@mui/icons-material'
 
 const MainBox = styled.div`
@@ -31,6 +31,7 @@ const LoadMore = styled(Button)`
     }
 `
 function FireFeed() {
+    const [showMore, setShowMore] = useState(false)
     const location = useLocation()
     const [data, setData] = useState([])
     useEffect(() => {
@@ -43,19 +44,30 @@ function FireFeed() {
         response.then(v => setData(...data, v.data))
     }, [location])
 
+    const handleShowMore = () => {
+        setShowMore(true)
+        setTimeout(() => {
+            setShowMore(false)
+            return
+        }, 3000);
+        return
+    }
+
     return (
         <MainBox>
-            <Card/>
-            <Card/>
-            <Card/>
-            <Card/>
-            <Card/>
-            <Card/>
-            <Card/>
             <Card />
-            <LoadMore>
-                Show More
-                <ExpandMoreRounded />
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+            <Card />
+            <LoadMore onClick={handleShowMore}>
+                {
+                    showMore ? <><CircularProgress sx={{ color: "white"}} /></> :
+                        <>Show More <ExpandMoreRounded /></>
+                }
             </LoadMore>
             {/* {
                 data.map(item => (

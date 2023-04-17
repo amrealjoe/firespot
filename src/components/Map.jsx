@@ -11,7 +11,7 @@ function Map({center, zoom }) {
     return (
         <MainBox>
             <GoogleMap
-                bootstrapURLKeys={{ key: "" }}
+                bootstrapURLKeys={{ key: "AIzaSyDNqzma-9F5pvmHORMDbJwUxxIjgo00dW8" }}
                 defaultCenter={center}
                 defaultZoom={zoom}
             >
