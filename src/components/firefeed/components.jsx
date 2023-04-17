@@ -18,12 +18,24 @@ export const MainBox = styled.div`
 `
 
 export const HeadBox = styled.div`
-display: flex;
+    display: flex;
+    gap: 4px;
+    align-items: center;
 `
 
-export const Location = styled(Typography)`
-    && {
-    }
+export const DotWrap = styled.span`
+    /* font-size: xx-large; */
+    border: thin solid red;
+    /* width: 4px;
+    height: 4px; */
+    display: grid;
+    place-items: center;
+`
+
+export const Location = styled.section`
+    display: flex;
+    gap: 4px;
+    align-items: center;
 `
 
 export const Stack = styled.div`
