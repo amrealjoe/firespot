@@ -54,7 +54,7 @@ function FireFeed() {
             <Card/>
             <Card />
             <LoadMore>
-                Load More
+                Show More
                 <ExpandMoreRounded />
             </LoadMore>
             {/* {

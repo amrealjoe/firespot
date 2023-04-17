@@ -3,7 +3,7 @@ import MuiButton from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import styled from 'styled-components';
-import { ArrowDropDownRounded } from '@mui/icons-material';
+import { ArrowDropDownRounded, ExpandLessRounded, ExpandMoreRounded } from '@mui/icons-material';
 import Counties from "@assets/data/Counties.json";
 import { createBrowserHistory } from "history"
 import { useLocation } from "react-router-dom"
@@ -25,6 +25,15 @@ const Button = styled(MuiButton)`
         border-color: #ffffffdd;
     }
 `
+const ShowMore = styled(MuiButton)`
+    && {
+        text-transform: capitalize;
+        min-width: 100%;
+        text-align: center;
+        border-radius: unset;
+        border-top: thin solid lightgrey;
+    }
+`
 
 function Filter() {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -34,6 +43,8 @@ function Filter() {
     const handleClick = (event) => { setAnchorEl(event.currentTarget); };
     const handleClose = () => { setAnchorEl(null); };
     const location = useLocation()
+    const [showMore, setShowMore] = useState(false)
+    function handleShowMore() { setShowMore(!showMore)}
 
     useEffect(() => {
         let newCounty = window.localStorage.getItem('fire_county')
@@ -45,6 +56,8 @@ function Filter() {
         window.localStorage.setItem('fire_county', county);
         setCounty(county)
     }, [county])
+
+    let cur_index = 6
 
     return (
         <div>
@@ -67,13 +80,27 @@ function Filter() {
                 }}
             >
                 {
-                    Counties.map((item, key) => (
+                    !showMore && Counties.slice(0, 5).map((item, key) => (
                         <MenuItem key={key} onClick={() => {
                             setCounty(item.county)
                             handleClose()
                         }}>{item.county}</MenuItem>
                     ))
                 }
+                { showMore && Counties.slice(0, 15).map((item, key) => (
+                        <MenuItem key={key} onClick={() => {
+                            setCounty(item.county)
+                            handleClose()
+                        }}>{item.county}</MenuItem>
+                    ))
+                }
+                <ShowMore onClick={handleShowMore} >
+                    {
+                        showMore ? <ExpandLessRounded />: <ExpandMoreRounded />
+                    }
+                    
+                    
+                </ShowMore>
             </Menu>
         </div>
     );
