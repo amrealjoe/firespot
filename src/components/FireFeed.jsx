@@ -13,6 +13,7 @@ const MainBox = styled.div`
     display: flex;
     flex-direction: column;
     gap: 17px;
+    margin: 0 12px;
     position: relative;
 `
 

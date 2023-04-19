@@ -1,13 +1,18 @@
 import React from 'react'
 import GoogleMap from 'google-map-react'
 import styled from 'styled-components'
+import { MapContainer } from 'react-leaflet/MapContainer'
+import { TileLayer } from 'react-leaflet/TileLayer'
+import { useMap } from 'react-leaflet/hooks'
+import { MapRounded } from '@mui/icons-material';
 
 const MainBox = styled.div`
     min-width: 100%;
     min-height: 100%;
 `
 
-function Map({center, zoom }) {
+function Map({ center, zoom }) {
+
     return (
         <MainBox>
             <GoogleMap

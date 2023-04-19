@@ -33,30 +33,9 @@ function Home() {
     const isDesktopOrLaptop = useMediaQuery({ query: '(min-width: 1224px)' })
     const isBigScreen = useMediaQuery({ query: '(min-width: 1824px)' })
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
-    const [notice, setNotice] = useState(true)
-
-    useEffect(() => {
-        const stopSeeingNotice = window.localStorage.getItem("stopSeeingNotice")
-        if (stopSeeingNotice === "true") {
-            setNotice(false)
-        }
-        setNotice(true)
-    }, [])
-
-    function dontShowNotice() {
-        setNotice(false)
-        window.localStorage.setItem("stopSeeingNotice", "false")
-    }
-    
-
-
 
     return (
         <MainBox maxWidth={'lg'}>
-            {
-                notice && <Notice dontShowNotice={dontShowNotice} />
-            }
-            
             <Header />
             <Grid container spacing={1}>
                 {
