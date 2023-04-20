@@ -6,6 +6,7 @@ import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import Header from './navigation/Header';
+import FAQ from './FAQ';
 
 const AppBarBox = styled(AppBar)`
     && {
@@ -70,6 +71,7 @@ export default function Navigation() {
                 onClose={() => setOpen(false)}>
                 <DrawerContent>
                     <Header handleOpen={handleOpen} />
+                    <FAQ />
                 </DrawerContent>
             </Drawer>
         </Box>

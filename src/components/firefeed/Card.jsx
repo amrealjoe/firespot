@@ -4,10 +4,10 @@ import {
     LocationOn, ShareRounded, LightModeRounded, MapRounded
 } from '@mui/icons-material'
 import MainBox, {
-    ActiveFire, Button, HeadBox, Hotspot,
-    IconWrap, Location, Stack, Menu, MenuItem
-} from './components'
+    Button, HeadBox, IconWrap,
+    Location, Stack, Menu, MenuItem } from './components'
 import { Typography } from '@mui/material';
+import { ActiveFireMarker, HotspotMarker } from '../Markers';
 
 
 function Card() {
@@ -21,17 +21,17 @@ function Card() {
         <MainBox>
             <HeadBox>
                 <Button variant='contained'>
-                    <ActiveFire>
+                    <ActiveFireMarker>
                         <LocalFireDepartmentRounded />
-                    </ActiveFire>
+                    </ActiveFireMarker>
                     Active Fire
                 </Button>
-                {/* <Button variant='contained'>
-                    <Hotspot>
+                <Button variant='contained'>
+                    <HotspotMarker>
                         <LightModeRounded />
-                    </Hotspot>
+                    </HotspotMarker>
                     Hotspot
-                </Button> */}
+                </Button>
                 {/* &#8226; */}
                 
             </HeadBox>

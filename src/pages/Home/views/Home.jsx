@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import styled from "styled-components"
-import Paper from '@mui/material/Paper';
-import FireFeed from '@/FireFeed';
-import { Box, Container } from '@mui/material';
-import Map from '@/Map';
-import MediaQuery from "react-responsive";
+import { Container } from '@mui/material';
 import { useMediaQuery } from 'react-responsive'
-import Header from '@/Header';
-import Notice from '@/Notice';
 
+//CUSTOM COMPONENTS
+import FireFeed from '@/FireFeed';
+import Map from '@/Map';
+import Header from '@/Header';
+
+
+//STYLED COMPONENTS
 const MainBox = styled(Container)`
     && {
         position: relative;
@@ -33,30 +34,9 @@ function Home() {
     const isDesktopOrLaptop = useMediaQuery({ query: '(min-width: 1224px)' })
     const isBigScreen = useMediaQuery({ query: '(min-width: 1824px)' })
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
-    const [notice, setNotice] = useState(true)
-
-    useEffect(() => {
-        const stopSeeingNotice = window.localStorage.getItem("stopSeeingNotice")
-        if (stopSeeingNotice === "true") {
-            setNotice(false)
-        }
-        setNotice(true)
-    }, [])
-
-    function dontShowNotice() {
-        setNotice(false)
-        window.localStorage.setItem("stopSeeingNotice", "false")
-    }
-    
-
-
 
     return (
         <MainBox maxWidth={'lg'}>
-            {
-                notice && <Notice dontShowNotice={dontShowNotice} />
-            }
-            
             <Header />
             <Grid container spacing={1}>
                 {
@@ -88,6 +68,11 @@ function Home() {
                     )
                 }
             </Grid>
+            {/* {
+                isTabletOrMobile && (
+                    <MapModal />
+                )
+            } */}
         </MainBox>
     )
 }
