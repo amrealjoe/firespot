@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import MuiButton from '@mui/material/Button';
-// import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import styled from 'styled-components';
 import { ArrowDropDownRounded, ExpandLessRounded, ExpandMoreRounded } from '@mui/icons-material';
 import Counties from "@assets/data/Counties.json";
-import { createBrowserHistory } from "history"
 import { useLocation } from "react-router-dom"
 import Menu from './Menu';
 
@@ -58,7 +56,6 @@ function Filter() {
         setCounty(county)
     }, [county])
 
-    let cur_index = 6
 
     return (
         <div>

@@ -13,6 +13,7 @@
     "@emotion/styled": "^11.10.6",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.12.1",
+    "@react-google-maps/api": "^2.18.1",
     "breakdancer": "^4.1.1",
     "google-map-react": "^2.2.0",
     "history": "^5.3.0",

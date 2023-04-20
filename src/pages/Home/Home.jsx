@@ -3,13 +3,12 @@ import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import styled from "styled-components"
 import { Container } from '@mui/material';
 import { useMediaQuery } from 'react-responsive'
+import MediaQuery from 'react-responsive'
 
 //CUSTOM COMPONENTS
-import FireFeed from '@/FireFeed';
-import DesktopMap from "@/DesktopMap"
-import MobileMap from "@/MobileMap"
 import Header from '@/Header';
-
+import DesktopView from './views/Desktop';
+import MobileView from './views/Mobile';
 
 //STYLED COMPONENTS
 const MainBox = styled(Container)`
@@ -18,18 +17,6 @@ const MainBox = styled(Container)`
     }
 `
 
-const FeedBox = styled.div`
-    background-color: transparent;
-    min-height: 180vh;
-`
-const MapBox = styled.div`
-    background-color: transparent;
-    border: thin solid lightgray;
-    min-height: 80vh;
-    position: sticky;
-    right: 0;
-    top:0;
-`
 
 function Home() {
     const isDesktopOrLaptop = useMediaQuery({ query: '(min-width: 1224px)' })
@@ -39,42 +26,16 @@ function Home() {
     return (
         <MainBox maxWidth={'lg'}>
             <Header />
-            <Grid container spacing={1}>
-                {
-                    isDesktopOrLaptop && (
-                        <>
-                            <Grid item xs={5} >
-                                <FeedBox>
-                                    <FireFeed />
-                                </FeedBox>
-                            </Grid>
+            <MediaQuery minWidth={992}>
+                <DesktopView />
+            </MediaQuery>
+            <MediaQuery maxWidth={991}>
+                <MobileView />
+            </MediaQuery>
 
-                            <Grid item xs={7}>
-                                <MapBox>
-                                    <DesktopMap />
-                                </MapBox>
-                            </Grid>
-                        </>
-                    )
-                }
-                {
-                    isTabletOrMobile && (
-                        <>
-                            <Grid item xs={12}>
-                                <FeedBox>
-                                    <FireFeed />
-                                </FeedBox>
-                            </Grid>
-                            <MobileMap />
-                        </>
-                    )
-                }
-            </Grid>
-            {/* {
-                isTabletOrMobile && (
-                    <MapModal />
-                )
-            } */}
+
+                
+
         </MainBox>
     )
 }
