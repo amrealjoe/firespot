@@ -6,8 +6,8 @@ import { useMediaQuery } from 'react-responsive'
 
 //CUSTOM COMPONENTS
 import FireFeed from '@/FireFeed';
-import Map from '@/Map';
-
+import DesktopMap from "@/DesktopMap"
+import MobileMap from "@/MobileMap"
 import Header from '@/Header';
 
 
@@ -51,7 +51,7 @@ function Home() {
 
                             <Grid item xs={7}>
                                 <MapBox>
-                                    <Map />
+                                    <DesktopMap />
                                 </MapBox>
                             </Grid>
                         </>
@@ -65,6 +65,7 @@ function Home() {
                                     <FireFeed />
                                 </FeedBox>
                             </Grid>
+                            <MobileMap />
                         </>
                     )
                 }
