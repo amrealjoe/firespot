@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import styled from "styled-components"
-import Paper from '@mui/material/Paper';
-import FireFeed from '@/FireFeed';
-import { Box, Container } from '@mui/material';
-import Map from '@/Map';
-import MediaQuery from "react-responsive";
+import { Container } from '@mui/material';
 import { useMediaQuery } from 'react-responsive'
-import Header from '@/Header';
-import Notice from '@/Notice';
 
+//CUSTOM COMPONENTS
+import FireFeed from '@/FireFeed';
+import Map from '@/Map';
+import Header from '@/Header';
+
+
+//STYLED COMPONENTS
 const MainBox = styled(Container)`
     && {
         position: relative;
@@ -67,6 +68,11 @@ function Home() {
                     )
                 }
             </Grid>
+            {/* {
+                isTabletOrMobile && (
+                    <MapModal />
+                )
+            } */}
         </MainBox>
     )
 }

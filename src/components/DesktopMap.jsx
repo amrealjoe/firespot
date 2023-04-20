@@ -5,14 +5,14 @@ import { MapContainer } from 'react-leaflet/MapContainer'
 import { TileLayer } from 'react-leaflet/TileLayer'
 import { useMap } from 'react-leaflet/hooks'
 import { MapRounded } from '@mui/icons-material';
-import "./map/map.css"
+import "./css/maps.css"
 
 const MainBox = styled.div`
     min-width: 100%;
     min-height: 100%;
 `
 
-function Map({ center, zoom }) {
+function DesktopMap({ center, zoom }) {
 
     return (
         <MainBox>
@@ -36,4 +36,4 @@ Map.defaultProps = {
     zoom: 10
 }
 
-export default Map
+export default DesktopMap
