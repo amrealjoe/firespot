@@ -3,13 +3,26 @@ import styled from 'styled-components'
 import "./css/maps.css"
 const API_KEY = "AIzaSyDNqzma-9F5pvmHORMDbJwUxxIjgo00dW8"
 import { useJsApiLoader, GoogleMap } from '@react-google-maps/api'
+import { LinearProgress, CircularProgress, Typography } from '@mui/material'
 
 
 //STYLED COMPONENTS
 const MapBox = styled.div`
     width: 660px;
     height: 555px;
-    border: solid red;
+`
+
+const MapLoader = styled.div`
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    /* background-color: #34343467; */
+    backdrop-filter: blur(2px);
+    display: grid;
+    place-items: center;
+    align-content: center;
 `
 
 const center = {lat: parseInt(5.43952), lgn: parseInt(-8.0415)}
@@ -23,7 +36,7 @@ function DesktopMap() {
     })
 
     if (!isLoaded) {
-        return "Map loading..."
+        return (<MapLoader><CircularProgress /><Typography>Map Loading</Typography></MapLoader>)
     }
 
 
@@ -35,7 +48,7 @@ function DesktopMap() {
                 zoom={15}
                 mapContainerStyle={{width: "100%", height: '100%'}}
             >
-
+                this is the map
             </GoogleMap>
         </MapBox>
     )
