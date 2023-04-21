@@ -68,6 +68,7 @@ function MobileView() {
                     aria-describedby="description"
                 >
                     <DialogTitle sx={{ m: 0, p: 2 }} >
+                        {"Fire map"}
                         <IconButton
                             aria-label="close"
                             onClick={handleClose}
@@ -81,7 +82,9 @@ function MobileView() {
                             <CloseIcon />
                         </IconButton>
                     </DialogTitle>
-                    <Map />
+                    <DialogContent>
+                        <Map />
+                    </DialogContent>
                 </Dialog>
             </MediaQuery>
         </Container>
