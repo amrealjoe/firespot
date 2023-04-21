@@ -1,6 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
+import Grid from '@mui/material/Unstable_Grid2';
+import Dialog from '@mui/material/Dialog';
+import MediaQuery from 'react-responsive'
+import Button from "@mui/material/Button"
+import DialogTitle from '@mui/material/DialogTitle';
+
+
+// Grid version 2
 // import "./css/maps.css"
 // const API_KEY = "AIzaSyDNqzma-9F5pvmHORMDbJwUxxIjgo00dW8"
 // import MobileMap from "@/MobileMap"
@@ -30,6 +37,9 @@ const MapBox = styled.div`
 `
 
 function DesktopView() {
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
     return (
         <Grid container spacing={1}>
@@ -43,6 +53,19 @@ function DesktopView() {
                     <DesktopMap />
                 </MapBox>
             </Grid>
+            <Button onClick={handleOpen}>Open Modal</Button>
+            <MediaQuery maxWidth={991}>
+                <Dialog
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">
+                        {"Use Google's location service?"}
+                    </DialogTitle>
+                </Dialog>
+            </MediaQuery>
         </Grid>
     )
 }
