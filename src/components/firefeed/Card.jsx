@@ -39,7 +39,13 @@ function Card(props) {
                 }
                                 
             </HeadBox>
-            <Typography variant='h5'>{props.address}</Typography>
+            
+            <Typography variant='h5'>
+                <small>
+                    {props.address} {" "} &#8226; {props.county} {" County"}
+                </small>
+            </Typography>
+            
             <Stack>
 
                 <Button variant='contained'>

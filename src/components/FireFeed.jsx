@@ -9,6 +9,7 @@ import Card from './firefeed/Card'
 import { Button, CircularProgress } from '@mui/material'
 import { ExpandMoreRounded } from '@mui/icons-material'
 import Fire from "@assets/data/Fire.json";
+import { HotspotMarker } from './Markers'
 
 const MainBox = styled.div`
     display: flex;
@@ -55,19 +56,46 @@ function FireFeed() {
         return
     }
 
+    function fire(data) {
+        return data.status == true
+    }
+    function hotspot(data) {
+        return data.status == false
+    }
+    const [co, setCo] = useState("Bomi")
+    function county(data) {
+        return data.county == co
+    }
+
+    function renderCard(data, filter) {
+        return (
+            data.filter(filter).map((data, key) => (
+                <Card
+                    key={key}
+                    county={data.county}
+                    address={data.address}
+                    lat={data.lat}
+                    lng={data.lng}
+                    status={data.status}
+                />
+            ))
+        )
+    }
+
     return (
         <MainBox>
             {
-                Fire.map((data, key) => (
-                    <Card
-                        key={key}
-                        county={data.county}
-                        address={data.address}
-                        lat={data.lat}
-                        lng={data.lng}
-                        status={data.status}
-                    />
-                ))
+                renderCard(Fire, county)
+                // Fire.filter(county).map((data, key) => (
+                //     <Card
+                //         key={key}
+                //         county={data.county}
+                //         address={data.address}
+                //         lat={data.lat}
+                //         lng={data.lng}
+                //         status={data.status}
+                //     />
+                // ))
 
             }
             
