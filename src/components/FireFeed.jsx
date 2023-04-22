@@ -1,15 +1,14 @@
-import React from 'react'
-import Papa from "papaparse"
+import React, { useContext } from 'react'
 import { useState } from 'react'
-import { useEffect } from 'react'
 import styled from "styled-components"
-import { useLocation } from 'react-router-dom'
-const url = "https://firms.modaps.eosdis.nasa.gov/api/country/csv/cdf3746fd8e186717bf4fafb16361b8a/VIIRS_SNPP_NRT/LBR/1"
 import Card from './firefeed/Card'
 import { Button, CircularProgress } from '@mui/material'
 import { ExpandMoreRounded } from '@mui/icons-material'
-import Fire from "@assets/data/Fire.json";
 import { HotspotMarker } from './Markers'
+import { ProvideFilter, withFilter } from '@contexts/ProvideFilter'
+
+//JSONS
+import Fire from "@assets/data/Fire.json";
 
 const MainBox = styled.div`
     display: flex;
@@ -35,17 +34,7 @@ const LoadMore = styled(Button)`
 `
 function FireFeed() {
     const [showMore, setShowMore] = useState(false)
-    const location = useLocation()
-    const [data, setData] = useState([])
-    useEffect(() => {
-        const response = fetch(url)
-            .then(response => response.text())
-            .then(v => Papa.parse(v, {
-                header: true,
-            }))
-            .catch(err => console.log(err))
-        response.then(v => setData(...data, v.data))
-    }, [location])
+    const { county } = useContext(withFilter)
 
     const handleShowMore = () => {
         setShowMore(true)
@@ -56,20 +45,19 @@ function FireFeed() {
         return
     }
 
-    function fire(data) {
+    function filterByFire(data) {
         return data.status == true
     }
-    function hotspot(data) {
+    function filterByHotspot(data) {
         return data.status == false
     }
-    const [co, setCo] = useState("Bomi")
-    function county(data) {
-        return data.county == co
+    function filterByCounty(data) {
+        return data.county == county
     }
 
     function renderCard(data, filter) {
         return (
-            data.filter(filter).map((data, key) => (
+            data.filter(filterByCounty).map((data, key) => (
                 <Card
                     key={key}
                     county={data.county}
@@ -86,46 +74,14 @@ function FireFeed() {
         <MainBox>
             {
                 renderCard(Fire, county)
-                // Fire.filter(county).map((data, key) => (
-                //     <Card
-                //         key={key}
-                //         county={data.county}
-                //         address={data.address}
-                //         lat={data.lat}
-                //         lng={data.lng}
-                //         status={data.status}
-                //     />
-                // ))
-
             }
-            
+
             <LoadMore onClick={handleShowMore}>
                 {
-                    showMore ? <><CircularProgress sx={{ color: "white"}} /></> :
+                    showMore ? <><CircularProgress sx={{ color: "white" }} /></> :
                         <>Show More <ExpandMoreRounded /></>
                 }
             </LoadMore>
-            {/* {
-                data.map(item => (
-                    <Block>
-                        <Small>Date: {item?.acq_date}</Small>
-                        <Small>Time: {item?.acq_time}</Small>
-                        <Small>Bright ti4 {item?.bright_ti4}</Small>
-                        <Small>Bright ti5 {item?.bright_ti5}</Small>
-                        <Small>Confidence: {item?.confidence}</Small>
-                        <Small>Country ID: {item?.country_id}</Small>
-                        <Small>Day Night{item?.daynight}</Small>
-                        <Small>FRP: {item?.frp}</Small>
-                        <Small>Instrument: {item?.instrument}</Small>
-                        <Small>Latitude: {item?.latitude}</Small>
-                        <Small>Longitude: {item?.longitude}</Small>
-                        <Small>Satelite: {item?.satellite}</Small>
-                        <Small>Scan: {item?.scan}</Small>
-                        <Small>Track: {item?.track}</Small>
-                        <Small>Version: {item?.version}</Small>
-                    </Block>
-                ))
-            } */}
         </MainBox>
     )
 }

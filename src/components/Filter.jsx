@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import MuiButton from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import styled from 'styled-components';
 import { ArrowDropDownRounded, ExpandLessRounded, ExpandMoreRounded } from '@mui/icons-material';
-import Counties from "@assets/data/Counties.json";
 import { useLocation } from "react-router-dom"
 import Menu from './Menu';
+import { withFilter } from '@contexts/ProvideFilter';
 
-import { useEffect } from 'react';
+//JSON DATA
+import Counties from "@assets/data/Counties.json";
 
+//CUSTOM STYLED COMPONENTS
 const Button = styled(MuiButton)`
     && {
         display: flex;
@@ -35,26 +37,19 @@ const ShowMore = styled(MuiButton)`
 `
 
 function Filter() {
-    const initCounty = window.localStorage.getItem('fire_county') ? window.localStorage.getItem('fire_county') : "Monsterrado"
-    const [county, setCounty] = useState(initCounty)
+
+    // const initCounty = window.localStorage.getItem('fire_county') ? window.localStorage.getItem('fire_county') : "Monsterrado"
+    // const [county, setCounty] = useState(initCounty)
+    const {county, setCounty} = useContext(withFilter)
+
+
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => { setAnchorEl(event.currentTarget); };
     const handleClose = () => { setAnchorEl(null); };
-    const location = useLocation()
     const [showMore, setShowMore] = useState(false)
     function handleShowMore() { setShowMore(!showMore)}
 
-    useEffect(() => {
-        let newCounty = window.localStorage.getItem('fire_county')
-        if (newCounty) {setCounty(newCounty)}
-        setCounty("Monsterrado")
-    }, [location])
-
-    useEffect(() => {
-        window.localStorage.setItem('fire_county', county);
-        setCounty(county)
-    }, [county])
 
 
     return (

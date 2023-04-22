@@ -1,28 +1,12 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import Grid from '@mui/material/Unstable_Grid2';
-import Dialog from '@mui/material/Dialog';
-import MediaQuery from 'react-responsive'
-import Button from "@mui/material/Button"
-import DialogTitle from '@mui/material/DialogTitle';
-
-
-// Grid version 2
-// import "./css/maps.css"
-// const API_KEY = "AIzaSyDNqzma-9F5pvmHORMDbJwUxxIjgo00dW8"
-// import MobileMap from "@/MobileMap"
+import Grid from '@mui/material/Grid';
 
 //CUSTOM COMPONENTS
 import FireFeed from '@/FireFeed';
 import DesktopMap from "@/DesktopMap"
 
 //STYLED COMPONENTS
-// const Container = styled(Grid)`
-//     width: 660px;
-//     height: 555px;
-//     border: solid red;
-// `
-
 const FeedBox = styled.div`
     background-color: transparent;
     min-height: 180vh;
@@ -37,9 +21,6 @@ const MapBox = styled.div`
 `
 
 function DesktopView() {
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
 
     return (
         <Grid container spacing={1}>
@@ -53,19 +34,6 @@ function DesktopView() {
                     <DesktopMap />
                 </MapBox>
             </Grid>
-            <Button onClick={handleOpen}>Open Modal</Button>
-            <MediaQuery maxWidth={991}>
-                <Dialog
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                >
-                    <DialogTitle id="alert-dialog-title">
-                        {"Use Google's location service?"}
-                    </DialogTitle>
-                </Dialog>
-            </MediaQuery>
         </Grid>
     )
 }
