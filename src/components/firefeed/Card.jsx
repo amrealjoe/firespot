@@ -10,7 +10,7 @@ import { Typography } from '@mui/material';
 import { ActiveFireMarker, HotspotMarker } from '../Markers';
 
 
-function Card() {
+function Card(props) {
 
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -20,22 +20,26 @@ function Card() {
     return (
         <MainBox>
             <HeadBox>
-                <Button variant='contained'>
-                    <ActiveFireMarker>
-                        <LocalFireDepartmentRounded />
-                    </ActiveFireMarker>
-                    Active Fire
-                </Button>
-                <Button variant='contained'>
-                    <HotspotMarker>
-                        <LightModeRounded />
-                    </HotspotMarker>
-                    Hotspot
-                </Button>
-                {/* &#8226; */}
-                
+                {
+                    props.status ? (
+                        <Button variant='contained'>
+                            <ActiveFireMarker>
+                                <LocalFireDepartmentRounded />
+                            </ActiveFireMarker>
+                            Active Fire
+                        </Button>
+                    ) : (
+                            <Button variant='contained'>
+                                <HotspotMarker>
+                                    <LightModeRounded />
+                                </HotspotMarker>
+                                Hotspot
+                            </Button>
+                    )
+                }
+                                
             </HeadBox>
-            <Typography variant='h5'>14 Street Sinkor, Monrovia, Liberia</Typography>
+            <Typography variant='h5'>{props.address}</Typography>
             <Stack>
 
                 <Button variant='contained'>

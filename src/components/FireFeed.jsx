@@ -8,6 +8,7 @@ const url = "https://firms.modaps.eosdis.nasa.gov/api/country/csv/cdf3746fd8e186
 import Card from './firefeed/Card'
 import { Button, CircularProgress } from '@mui/material'
 import { ExpandMoreRounded } from '@mui/icons-material'
+import Fire from "@assets/data/Fire.json";
 
 const MainBox = styled.div`
     display: flex;
@@ -56,14 +57,20 @@ function FireFeed() {
 
     return (
         <MainBox>
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
+            {
+                Fire.map((data, key) => (
+                    <Card
+                        key={key}
+                        county={data.county}
+                        address={data.address}
+                        lat={data.lat}
+                        lng={data.lng}
+                        status={data.status}
+                    />
+                ))
+
+            }
+            
             <LoadMore onClick={handleShowMore}>
                 {
                     showMore ? <><CircularProgress sx={{ color: "white"}} /></> :

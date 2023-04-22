@@ -4,11 +4,11 @@ import styled from 'styled-components'
 
 const MapSpinner = styled.div`
     width: 100%;
-    height: 100%;
+    height: 88%;
     position: absolute;
-    top: 0;
     right: 0;
-    backdrop-filter: blur(2px);
+    bottom: 0;
+    backdrop-filter: blur(10px);
     display: grid;
     place-items: center;
     align-content: center;

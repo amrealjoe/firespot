@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import { IconWrap } from "./firefeed/components"
+import React from 'react'
 
 export const ActiveFireMarker = styled(IconWrap)`
     background-color: #FF3F3F;
@@ -40,3 +41,14 @@ export const HotspotMarker = styled(ActiveFireMarker)`
         border:1.2px solid #FFC611;
         }
 `
+
+
+function Markers({ lat, lng, onClick, fire }) {
+    return (
+        <div onClick={onClick}>
+            fire ? <ActiveFireMarker /> : <HotspotMarker />
+        </div>
+    ) 
+}
+
+export default Markers
