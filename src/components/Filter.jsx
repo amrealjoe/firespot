@@ -49,8 +49,9 @@ function Filter() {
     const handleClose = () => { setAnchorEl(null); };
     const [showMore, setShowMore] = useState(false)
     function handleShowMore() { setShowMore(!showMore)}
-
-
+    useEffect(() => {
+        setShowMore(false)
+    }, [county])
 
     return (
         <div>

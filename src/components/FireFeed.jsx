@@ -35,15 +35,29 @@ const LoadMore = styled(Button)`
 function FireFeed() {
     const [showMore, setShowMore] = useState(false)
     const { county } = useContext(withFilter)
+    const [slice, setSlice] = useState(5)
 
-    const handleShowMore = () => {
+
+    const handleShowMore = (e, data) => {
         setShowMore(true)
         setTimeout(() => {
             setShowMore(false)
-            return
+            if (data.length === slice) {
+                setSlice(data.length)
+            } else {
+                setSlice(slice + 5)
+            }
         }, 3000);
         return
     }
+    // const handleShowMore = () => {
+    //     setShowMore(true)
+    //     setTimeout(() => {
+    //         setShowMore(false)
+    //         return
+    //     }, 3000);
+    //     return
+    // }
 
     function filterByFire(data) {
         return data.status == true
@@ -55,28 +69,25 @@ function FireFeed() {
         return data.county == county
     }
 
-    function renderCard(data, filter) {
-        return (
-            data.filter(filterByCounty).map((data, key) => (
-                <Card
-                    key={key}
-                    county={data.county}
-                    address={data.address}
-                    lat={data.lat}
-                    lng={data.lng}
-                    status={data.status}
-                />
-            ))
-        )
-    }
 
     return (
         <MainBox>
             {
-                renderCard(Fire, county)
+                Fire.slice(0, slice).map((data, key) => (
+                    <Card
+                        key={key}
+                        county={data.county}
+                        address={data.address}
+                        lat={data.lat}
+                        lng={data.lng}
+                        status={data.status}
+                    />
+                ))
             }
 
-            <LoadMore onClick={handleShowMore}>
+            <LoadMore onClick={(e) => {
+                handleShowMore(e, Fire)
+            }}>
                 {
                     showMore ? <><CircularProgress sx={{ color: "white" }} /></> :
                         <>Show More <ExpandMoreRounded /></>
