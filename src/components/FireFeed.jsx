@@ -21,6 +21,13 @@ const MainBox = styled.div`
     position: relative;
 `
 
+const NothingFound = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    text-align: center;
+`
+
 function reducer(state, action) {
     switch (action.type) {
         case "fire":
@@ -66,7 +73,7 @@ function FireFeed() {
         return _data
     }, [county])
     //FILTER FIREDATA
-    
+
     let FilteredData = useMemo(() => FireData.slice(0, slice).filter(option), [FireData, option])
 
     return (
@@ -91,16 +98,21 @@ function FireFeed() {
                 </ButtonGroup>
             </>
             {
+                FilteredData.length > 0 ? (
                     FilteredData.map((data, key) => (
-                    <Card
-                        key={key}
-                        county={data.county}
-                        address={data.address}
-                        lat={data.lat}
-                        lng={data.lng}
-                        status={data.status}
-                    />
-                ))
+                        <Card
+                            key={key}
+                            county={data.county}
+                            address={data.address}
+                            lat={data.lat}
+                            lng={data.lng}
+                            status={data.status}
+                        />
+                        ))
+                ) : 
+                    <NothingFound>
+                        No {state.selected.toUpperCase()} found in {county} County.
+                    </NothingFound>
             }
 
             {
