@@ -4,6 +4,7 @@ import { Container } from '@mui/material';
 import MediaQuery from 'react-responsive'
 
 //CUSTOM COMPONENTS
+import Footer from '@/Footer';
 import Header from '@/Header';
 import DesktopView from './views/Desktop';
 import MobileView from './views/Mobile';
@@ -18,15 +19,18 @@ const MainBox = styled(Container)`
 
 function Home() {
     return (
-        <MainBox maxWidth={'lg'}>
-            <Header />
-            <MediaQuery minWidth={992}>
-                <DesktopView />
-            </MediaQuery>
-            <MediaQuery maxWidth={991}>
-                <MobileView />
-            </MediaQuery>
-        </MainBox>
+        <>
+            <MainBox maxWidth={'lg'}>
+                <Header />
+                <MediaQuery minWidth={992}>
+                    <DesktopView />
+                </MediaQuery>
+                <MediaQuery maxWidth={991}>
+                    <MobileView />
+                </MediaQuery>
+            </MainBox>
+            <Footer />
+        </>
     )
 }
 

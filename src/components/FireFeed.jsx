@@ -1,12 +1,16 @@
-import React, { useContext } from 'react'
-import { useState } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo, useReducer, useState } from 'react'
 import styled from "styled-components"
 import Card from './firefeed/Card'
-import { Button, CircularProgress } from '@mui/material'
-import { ExpandMoreRounded } from '@mui/icons-material'
+import { Button, CircularProgress, createTheme } from '@mui/material'
+import { ExpandMoreRounded, LocalFireDepartmentRounded, LightModeRounded } from '@mui/icons-material'
 import { HotspotMarker } from './Markers'
-import { ProvideFilter, withFilter } from '@contexts/ProvideFilter'
+import { withFilter } from '@contexts/ProvideFilter'
+import "./firefeed/firefeed.css"
+import { ButtonGroup, LoadMoreButton } from './firefeed/components'
+import { renderByFilter, renderAll } from './firefeed/Renders'
+import { FilterOption } from './firefeed/FilterOptions'
 
+const theme = createTheme()
 //JSONS
 import Fire from "@assets/data/Fire.json";
 
@@ -18,25 +22,27 @@ const MainBox = styled.div`
     position: relative;
 `
 
-const LoadMore = styled(Button)`
-    && {
-        min-height: 100%;
-        padding: 12px;
-        text-align: center;
-        background-color: #040404;
-        text-transform: capitalize;
-        color: #d5d5d5;
-        border-radius: unset;
+function reducer(state, action) {
+    switch (action.type) {
+        case "fire":
+            return { selected: state.selected = "fire" }
+        case "hotspot":
+            return { selected: state.selected = "hotspot" }
+        case "all":
+            return { selected: state.selected = "all" }
+        default:
+            return state
     }
-    &&:hover {
-        background-color: #040404;
-    }
-`
+}
+
+
 function FireFeed() {
+    const [state, dispatch] = useReducer(reducer, { selected: "all" })
     const [showMore, setShowMore] = useState(false)
     const { county } = useContext(withFilter)
-    const [slice, setSlice] = useState(5)
-
+    const [slice, setSlice] = useState(10)
+    const [empty, setEmpty] = useState(false)
+    let option = FilterOption(state.selected)
 
     const handleShowMore = (e, data) => {
         setShowMore(true)
@@ -44,36 +50,46 @@ function FireFeed() {
             setShowMore(false)
             if (data.length === slice) {
                 setSlice(data.length)
+                setEmpty(true)
             } else {
                 setSlice(slice + 5)
             }
-        }, 3000);
+        }, 1000);
         return
     }
-    // const handleShowMore = () => {
-    //     setShowMore(true)
-    //     setTimeout(() => {
-    //         setShowMore(false)
-    //         return
-    //     }, 3000);
-    //     return
-    // }
 
-    function filterByFire(data) {
-        return data.status == true
-    }
-    function filterByHotspot(data) {
-        return data.status == false
-    }
-    function filterByCounty(data) {
-        return data.county == county
-    }
-
+    let FireData = useMemo(() => {
+        let _data = Fire.filter((data) => { return data.county == county })
+        if (_data == "") {
+            dispatch({ type: "all" })
+            return Fire
+        }
+        return _data
+    }, [county])
 
     return (
         <MainBox>
+            <>
+                <ButtonGroup
+                    variant="contained"
+                    color="primary"
+                    aria-label="Filter-button"
+                >
+                    <Button
+                        className={state.selected === "all" ? "active" : ""}
+                        onClick={() => { dispatch({ type: "all" }) }}>All</Button>
+                    <Button
+                        className={state.selected === "fire" ? "active" : ""}
+                        onClick={() => { dispatch({ type: "fire" }) }}
+                        startIcon={<LocalFireDepartmentRounded />}> Active Fire</Button>
+                    <Button
+                        className={state.selected === "hotspot" ? "active" : ""}
+                        onClick={() => { dispatch({ type: "hotspot" }) }}
+                        startIcon={<LightModeRounded />}>Hotspot</Button>
+                </ButtonGroup>
+            </>
             {
-                Fire.slice(0, slice).map((data, key) => (
+                FireData.slice(0, slice).filter(option).map((data, key) => (
                     <Card
                         key={key}
                         county={data.county}
@@ -85,14 +101,19 @@ function FireFeed() {
                 ))
             }
 
-            <LoadMore onClick={(e) => {
-                handleShowMore(e, Fire)
-            }}>
-                {
-                    showMore ? <><CircularProgress sx={{ color: "white" }} /></> :
-                        <>Show More <ExpandMoreRounded /></>
-                }
-            </LoadMore>
+            {
+                !empty && FireData.length > 5 && (
+                    <>
+                        <LoadMoreButton onClick={(e) => { handleShowMore(e, Fire) }}>
+                            {
+                                showMore ? <><CircularProgress sx={{ color: "white" }} /></> :
+                                    <>Show More <ExpandMoreRounded /></>
+                            }
+                        </LoadMoreButton>
+                    </>
+                )
+            }
+
         </MainBox>
     )
 }

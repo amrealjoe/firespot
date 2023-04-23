@@ -3,6 +3,7 @@ import MuiButton from "@mui/material/Button"
 import styled from 'styled-components'
 import MuiMenu from '@mui/material/Menu';
 import MuiMenuItem from '@mui/material/MenuItem';
+import MuiButtonGroup from "@mui/material/ButtonGroup"
 
 export const MainBox = styled.div`
     border-radius: 17px;
@@ -97,5 +98,53 @@ export const MenuItem = styled(MuiMenuItem)`
      }
 
 `
+
+export const ButtonGroup = styled(MuiButtonGroup)`
+    && {
+        margin: 24px 0 0 0;
+        justify-content: center;
+        box-shadow: unset;
+    }
+    && button {
+        text-transform: capitalize;
+        border-radius: 12px;
+        display:flex;
+        min-width: 90px;
+        gap: 0px;
+        background-color: #434343;
+        font-size: small;
+    }
+
+    && .MuiButtonGroup-grouped:not(:last-of-type) {
+        border-color: #747474;
+    }
+
+    && > :nth-of-type(2) {
+        &  svg {
+            fill: #FF3F3F
+        }
+    }
+    && > :nth-of-type(3) {
+        &  svg {
+            fill: #FFC611
+        }
+    }
+`
+
+export const LoadMoreButton = styled(Button)`
+    && {
+        min-height: 100%;
+        padding: 12px;
+        text-align: center;
+        background-color: #040404;
+        text-transform: capitalize;
+        color: #d5d5d5;
+        border-radius: unset;
+    }
+    &&:hover {
+        background-color: #040404;
+    }
+`
+
 
 export default MainBox
