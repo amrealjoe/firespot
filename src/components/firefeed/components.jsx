@@ -63,6 +63,26 @@ export const Button = styled(MuiButton)`
     }
 `
 
+export const Span = styled.span`
+    && {
+        font-size: small;
+        font-weight: bold;
+        color: #ffffffde;
+        text-transform: capitalize;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding-right: 4px;
+    }
+`
+
+export const Time = styled(Typography)`
+    && {
+        font-size: small;
+        font-weight: bold;
+    }
+`
+
 export const IconWrap = styled.span`
     border-radius: 50%;
     background-color: #323232;

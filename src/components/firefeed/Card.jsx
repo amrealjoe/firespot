@@ -4,7 +4,7 @@ import {
     LocationOn, ShareRounded, LightModeRounded, MapRounded
 } from '@mui/icons-material'
 import MainBox, {
-    Button, HeadBox, IconWrap,
+    Button, HeadBox, IconWrap, Span, Time,
     Location, Stack, Menu, MenuItem } from './components'
 import { Typography } from '@mui/material';
 import { ActiveFireMarker, HotspotMarker } from '../Markers';
@@ -22,21 +22,26 @@ function Card(props) {
             <HeadBox>
                 {
                     props.status ? (
-                        <Button variant='contained'>
+                        <Span>
                             <ActiveFireMarker>
                                 <LocalFireDepartmentRounded />
                             </ActiveFireMarker>
                             Active Fire
-                        </Button>
+                        </Span>
                     ) : (
-                            <Button variant='contained'>
+                            <Span>
                                 <HotspotMarker>
                                     <LightModeRounded />
                                 </HotspotMarker>
                                 Hotspot
-                            </Button>
+                            </Span>
                     )
                 }
+
+                &#8226;
+                <Time>
+                    13:21 pm
+                </Time>
                                 
             </HeadBox>
             
