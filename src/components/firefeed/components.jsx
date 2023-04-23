@@ -116,7 +116,7 @@ export const ButtonGroup = styled(MuiButtonGroup)`
     }
 
     && .MuiButtonGroup-grouped:not(:last-of-type) {
-        border-color: #747474;
+        border-color: #020101;
     }
 
     && > :nth-of-type(2) {

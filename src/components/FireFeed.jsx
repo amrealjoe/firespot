@@ -7,7 +7,6 @@ import { HotspotMarker } from './Markers'
 import { withFilter } from '@contexts/ProvideFilter'
 import "./firefeed/firefeed.css"
 import { ButtonGroup, LoadMoreButton } from './firefeed/components'
-import { renderByFilter, renderAll } from './firefeed/Renders'
 import { FilterOption } from './firefeed/FilterOptions'
 
 const theme = createTheme()
