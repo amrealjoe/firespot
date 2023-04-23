@@ -40,17 +40,29 @@ function Filter() {
 
     // const initCounty = window.localStorage.getItem('fire_county') ? window.localStorage.getItem('fire_county') : "Monsterrado"
     // const [county, setCounty] = useState(initCounty)
-    const {county, setCounty} = useContext(withFilter)
+    const { county, setCounty } = useContext(withFilter)
 
 
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => { setAnchorEl(event.currentTarget); };
     const handleClose = () => { setAnchorEl(null); };
-    const [showMore, setShowMore] = useState(false)
-    function handleShowMore() { setShowMore(!showMore)}
+    const [showMore, setShowMore] = useState(true)
+    const [slice, setSlice] = useState(8)
+
+    const handleShowMore = (e, list) => {
+        if (list.length === slice) {
+            setSlice(list.length)
+            setShowMore(false)
+        } else {
+            setSlice(slice + 8)
+            setShowMore(false)
+        }
+        return
+    }
     useEffect(() => {
-        setShowMore(false)
+        setShowMore(true)
+        setSlice(8)
     }, [county])
 
     return (
@@ -74,27 +86,27 @@ function Filter() {
                 }}
             >
                 {
-                    !showMore && Counties.slice(0, 5).map((item, key) => (
+                    Counties.slice(0, slice).map((item, key) => (
                         <MenuItem key={key} onClick={() => {
                             setCounty(item.county)
                             handleClose()
                         }}>{item.county}</MenuItem>
                     ))
                 }
-                { showMore && Counties.slice(0, 15).map((item, key) => (
+                {/* { showMore && Counties.slice(0, 15).map((item, key) => (
                         <MenuItem key={key} onClick={() => {
                             setCounty(item.county)
                             handleClose()
                         }}>{item.county}</MenuItem>
                     ))
+                } */}
+                {
+                    showMore && (
+                        <ShowMore onClick={(e) => { handleShowMore(e, Counties) }} >
+                            <ExpandMoreRounded />
+                        </ShowMore>
+                    )
                 }
-                <ShowMore onClick={handleShowMore} >
-                    {
-                        showMore ? <ExpandLessRounded />: <ExpandMoreRounded />
-                    }
-                    
-                    
-                </ShowMore>
             </Menu>
         </div>
     );

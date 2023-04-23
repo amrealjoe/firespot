@@ -39,9 +39,9 @@ function FireFeed() {
     const [state, dispatch] = useReducer(reducer, { selected: "all" })
     const [showMore, setShowMore] = useState(false)
     const { county } = useContext(withFilter)
-    const [slice, setSlice] = useState(10)
     const [empty, setEmpty] = useState(false)
     let option = FilterOption(state.selected)
+    const [slice, setSlice] = useState(10)
 
     const handleShowMore = (e, data) => {
         setShowMore(true)
@@ -65,6 +65,9 @@ function FireFeed() {
         }
         return _data
     }, [county])
+    //FILTER FIREDATA
+    
+    let FilteredData = useMemo(() => FireData.slice(0, slice).filter(option), [FireData, option])
 
     return (
         <MainBox>
@@ -88,7 +91,7 @@ function FireFeed() {
                 </ButtonGroup>
             </>
             {
-                FireData.slice(0, slice).filter(option).map((data, key) => (
+                    FilteredData.map((data, key) => (
                     <Card
                         key={key}
                         county={data.county}
