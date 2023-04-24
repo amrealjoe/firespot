@@ -11,11 +11,7 @@ const MapBox = styled.div`
     height: 555px;
 `
 
-// const center = { lat: parseInt(5.43952), lgn: parseInt(-8.0415) }
-const lat = 5.43952
-const lng = -8.0415
-
-const containerStyle = {
+const ContainerStyle = {
     width: '100%',
     height: '99%'
 };
@@ -25,37 +21,22 @@ const center = {
     lng: -9.429499
 };
 
+const zoom = 7.5
+
 function DesktopMap() {
-    // const { isLoaded } = useJsApiLoader({
-    //     googleMapsApiKey: API_KEY
-    // })
-
-    // if (!isLoaded) {
-    //     return (<Spinner />)
-    // }
-
-
-
     return (
         <MapBox>
             <LoadScript
                 googleMapsApiKey={"AIzaSyDNqzma-9F5pvmHORMDbJwUxxIjgo00dW8"}
             >
                 <GoogleMap
-                    mapContainerStyle={containerStyle}
+                    mapContainerStyle={ContainerStyle}
                     center={center}
-                    zoom={7.5}
+                    zoom={zoom}
                 >
                     {/* Child components, such as markers, info windows, etc. */}
                 </GoogleMap>
             </LoadScript>
-            {/* <GoogleMap
-                center={{ lat: +lat, lng: +lng }}
-                zoom={15}
-                mapContainerStyle={{ width: "100%", height: '100%' }}
-            >
-                this is the map
-            </GoogleMap> */}
         </MapBox>
     )
 }
