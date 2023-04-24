@@ -5,13 +5,21 @@ import { Button, CircularProgress, createTheme } from '@mui/material'
 import { ExpandMoreRounded, LocalFireDepartmentRounded, LightModeRounded } from '@mui/icons-material'
 import { HotspotMarker } from './Markers'
 import { withFilter } from '@contexts/ProvideFilter'
+import { withData } from '@contexts/ProvideData'
 import "./firefeed/firefeed.css"
 import { ButtonGroup, LoadMoreButton } from './firefeed/components'
 import { FilterOption } from './firefeed/FilterOptions'
+const url =
+    "https://firms.modaps.eosdis.nasa.gov/api/country/csv/cdf3746fd8e186717bf4fafb16361b8a/VIIRS_SNPP_NRT/LBR/1";
+// const url =
+//     "https://firms.modaps.eosdis.nasa.gov/api/country/csv/cdf3746fd8e186717bf4fafb16361b8a/VIIRS_SNPP_NRT/LBR/1";
+import Papa from "papaparse";
+
 
 const theme = createTheme()
 //JSONS
 import Fire from "@assets/data/Fire.json";
+import { useLocation } from 'react-router-dom'
 
 const MainBox = styled.div`
     display: flex;
@@ -46,10 +54,26 @@ function FireFeed() {
     const [state, dispatch] = useReducer(reducer, { selected: "all" })
     const [showMore, setShowMore] = useState(false)
     const { county } = useContext(withFilter)
+    // const { data } = useContext(withData)
+    // console.log(data)
     const [empty, setEmpty] = useState(false)
     let option = FilterOption(state.selected)
     const [slice, setSlice] = useState(10)
 
+    const [data, setData] = useState([]);
+    const location = useLocation();
+    useEffect(() => {
+        const response = fetch(url)
+            .then((response) => response.text())
+            .then((v) =>
+                Papa.parse(v, {
+                    header: true,
+                })
+            )
+            .catch((err) => console.log(err));
+        response.then((v) => setData(v.data));
+    }, [location]);
+    console.log(data)
     const handleShowMore = (e, data) => {
         setShowMore(true)
         setTimeout(() => {

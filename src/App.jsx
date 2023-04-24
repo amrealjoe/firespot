@@ -3,6 +3,7 @@ import Navigation from '@/Navigation'
 import { Routes, Outlet, Route } from "react-router-dom"
 import Home from "@pages/Home"
 import { ProvideFilter } from '@contexts/ProvideFilter'
+import { ProvideData } from '@contexts/ProvideData'
 
 
 
@@ -11,13 +12,15 @@ import { ProvideFilter } from '@contexts/ProvideFilter'
 function App() {
 
   return (
-    <ProvideFilter>
+    <ProvideData>
+      <ProvideFilter>
         <Navigation />
-          <Routes>
-            <Route path="/" element={<Home />} />
-          </Routes>
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
         <Outlet />
-    </ProvideFilter>
+      </ProvideFilter>
+    </ProvideData>
 
   )
 }
