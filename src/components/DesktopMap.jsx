@@ -16,23 +16,23 @@ const lat = 5.43952
 const lng = -8.0415
 
 const containerStyle = {
-    width: '400px',
-    height: '400px'
+    width: '100%',
+    height: '99%'
 };
 
 const center = {
-    lat: -3.745,
-    lng: -38.523
+    lat: 6.428055,
+    lng: -9.429499
 };
 
 function DesktopMap() {
-    const { isLoaded } = useJsApiLoader({
-        googleMapsApiKey: API_KEY
-    })
+    // const { isLoaded } = useJsApiLoader({
+    //     googleMapsApiKey: API_KEY
+    // })
 
-    if (!isLoaded) {
-        return (<Spinner />)
-    }
+    // if (!isLoaded) {
+    //     return (<Spinner />)
+    // }
 
 
 
@@ -44,7 +44,7 @@ function DesktopMap() {
                 <GoogleMap
                     mapContainerStyle={containerStyle}
                     center={center}
-                    zoom={10}
+                    zoom={7.5}
                 >
                     {/* Child components, such as markers, info windows, etc. */}
                 </GoogleMap>
