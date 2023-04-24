@@ -1,19 +1,19 @@
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import styled from 'styled-components'
 import "./css/maps.css"
 const API_KEY = "AIzaSyDNqzma-9F5pvmHORMDbJwUxxIjgo00dW8"
-import { useJsApiLoader, GoogleMap, LoadScript } from '@react-google-maps/api'
+import { GoogleMap, LoadScript, useLoadScript } from '@react-google-maps/api'
 import Spinner from "@/Spinner"
 
 //STYLED COMPONENTS
 const MapBox = styled.div`
     width: 660px;
-    height: 555px;
+    height: 500px;
 `
 
 const ContainerStyle = {
-    width: '100%',
-    height: '99%'
+    width: '101%',
+    height: '105%'
 };
 
 const center = {
@@ -24,19 +24,34 @@ const center = {
 const zoom = 7.5
 
 function DesktopMap() {
+    const [map, setMap] = useState(null);
+    const [markers, setMarkers] = useState([]);
+
+    const { isLoaded } = useLoadScript({ googleMapsApiKey: API_KEY });
+    const onLoad = useCallback(function callback(map) { setMap(map); }, []);
+    if (!isLoaded) { return <Spinner />; }
+
+
+    function handleMapClick(event) {
+        // Add a new marker to the array when the map is clicked
+        const newMarker = {
+            lat: event.latLng.lat(),
+            lng: event.latLng.lng(),
+            time: new Date()
+        };
+        setMarkers(current => [...current, newMarker]);
+    }
+
     return (
         <MapBox>
-            <LoadScript
-                googleMapsApiKey={"AIzaSyDNqzma-9F5pvmHORMDbJwUxxIjgo00dW8"}
+
+            <GoogleMap
+                mapContainerStyle={ContainerStyle}
+                center={center}
+                zoom={zoom}
+                onLoad={onLoad}
             >
-                <GoogleMap
-                    mapContainerStyle={ContainerStyle}
-                    center={center}
-                    zoom={zoom}
-                >
-                    {/* Child components, such as markers, info windows, etc. */}
-                </GoogleMap>
-            </LoadScript>
+            </GoogleMap>
         </MapBox>
     )
 }
