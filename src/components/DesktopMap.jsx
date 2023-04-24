@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import "./css/maps.css"
 const API_KEY = "AIzaSyDNqzma-9F5pvmHORMDbJwUxxIjgo00dW8"
-import { useJsApiLoader, GoogleMap } from '@react-google-maps/api'
+import { useJsApiLoader, GoogleMap, LoadScript } from '@react-google-maps/api'
 import Spinner from "@/Spinner"
 
 //STYLED COMPONENTS
@@ -11,9 +11,19 @@ const MapBox = styled.div`
     height: 555px;
 `
 
-const center = { lat: parseInt(5.43952), lgn: parseInt(-8.0415) }
+// const center = { lat: parseInt(5.43952), lgn: parseInt(-8.0415) }
 const lat = 5.43952
 const lng = -8.0415
+
+const containerStyle = {
+    width: '400px',
+    height: '400px'
+};
+
+const center = {
+    lat: -3.745,
+    lng: -38.523
+};
 
 function DesktopMap() {
     const { isLoaded } = useJsApiLoader({
@@ -28,13 +38,24 @@ function DesktopMap() {
 
     return (
         <MapBox>
-            <GoogleMap
+            <LoadScript
+                googleMapsApiKey={"AIzaSyDNqzma-9F5pvmHORMDbJwUxxIjgo00dW8"}
+            >
+                <GoogleMap
+                    mapContainerStyle={containerStyle}
+                    center={center}
+                    zoom={10}
+                >
+                    {/* Child components, such as markers, info windows, etc. */}
+                </GoogleMap>
+            </LoadScript>
+            {/* <GoogleMap
                 center={{ lat: +lat, lng: +lng }}
                 zoom={15}
                 mapContainerStyle={{ width: "100%", height: '100%' }}
             >
                 this is the map
-            </GoogleMap>
+            </GoogleMap> */}
         </MapBox>
     )
 }
