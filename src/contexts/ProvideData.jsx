@@ -9,18 +9,17 @@ export const withData = createContext(null)
 export function ProvideData({ children }) {
     const [data, setData] = useState([]);
     const location = useLocation()
+
     useEffect(() => {
         const response = fetch(url)
             .then((response) => response.text())
-            .then((v) =>
-                Papa.parse(v, {
-                    header: true,
-                })
-            )
+            .then((result) => Papa.parse(result, { header: true, }))
             .catch((err) => console.log(err));
-        response.then((v) => setData(...data, v.data));
+
+        response.then((result) => setData(...data, result.data));
+
     }, [location]);
-    
+
     const ContextValues = {
         data
     }

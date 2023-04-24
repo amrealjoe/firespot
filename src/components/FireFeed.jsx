@@ -54,26 +54,13 @@ function FireFeed() {
     const [state, dispatch] = useReducer(reducer, { selected: "all" })
     const [showMore, setShowMore] = useState(false)
     const { county } = useContext(withFilter)
-    // const { data } = useContext(withData)
-    // console.log(data)
+    //FIRE DATA
+    const { data } = useContext(withData)
+    console.log(data)
     const [empty, setEmpty] = useState(false)
     let option = FilterOption(state.selected)
     const [slice, setSlice] = useState(10)
 
-    const [data, setData] = useState([]);
-    const location = useLocation();
-    useEffect(() => {
-        const response = fetch(url)
-            .then((response) => response.text())
-            .then((v) =>
-                Papa.parse(v, {
-                    header: true,
-                })
-            )
-            .catch((err) => console.log(err));
-        response.then((v) => setData(v.data));
-    }, [location]);
-    console.log(data)
     const handleShowMore = (e, data) => {
         setShowMore(true)
         setTimeout(() => {
@@ -132,8 +119,8 @@ function FireFeed() {
                             lng={data.lng}
                             status={data.status}
                         />
-                        ))
-                ) : 
+                    ))
+                ) :
                     <NothingFound>
                         No {state.selected.toUpperCase()} found in {county} County.
                     </NothingFound>
