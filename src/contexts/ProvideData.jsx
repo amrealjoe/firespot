@@ -7,6 +7,7 @@ const url =
 export const withData = createContext(null)
 
 export function ProvideData({ children }) {
+
     const [data, setData] = useState([]);
     const location = useLocation()
 
@@ -19,9 +20,7 @@ export function ProvideData({ children }) {
 
     }, [location]);
 
-    const ContextValues = {
-        data
-    }
+    const ContextValues = {data}
 
     return (
         <withData.Provider value={ContextValues}>

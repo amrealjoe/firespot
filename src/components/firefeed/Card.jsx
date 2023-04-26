@@ -8,14 +8,6 @@ import MainBox, {
     Location, Stack, Menu, MenuItem } from './components'
 import { Typography } from '@mui/material';
 import { ActiveFireMarker, HotspotMarker } from '../Markers';
-// import {geocoding} from "reverse-geocoding'"
-// import { Geocoder } from "node-geocoder";
-
-const num2time = num => {
-    if (num < 100) num *= 100;
-    const [_, hh, mm] = num.toString().match(/(\d{1,2})(\d{2})$/)
-    return `${hh.padStart(2, "0")}:${mm}`
-}
 
 function Card(props) {
     const {fire} = props
