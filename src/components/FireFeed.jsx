@@ -1,9 +1,18 @@
-import React, { useCallback, useContext, useEffect, useMemo, useReducer, useState } from 'react'
+import React, {
+    useContext,
+    useMemo, useReducer, useState
+} from 'react'
 import styled from "styled-components"
 import Card from './firefeed/Card'
-import { Button, CircularProgress, createTheme } from '@mui/material'
-import { ExpandMoreRounded, LocalFireDepartmentRounded, LightModeRounded } from '@mui/icons-material'
-import { HotspotMarker } from './Markers'
+import {
+    Button,
+    CircularProgress,
+     createTheme } from '@mui/material'
+import {
+    ExpandMoreRounded,
+    LocalFireDepartmentRounded,
+    LightModeRounded
+} from '@mui/icons-material'
 import { withFilter } from '@contexts/ProvideFilter'
 import { withData } from '@contexts/ProvideData'
 import "./firefeed/firefeed.css"
@@ -11,15 +20,10 @@ import { ButtonGroup, LoadMoreButton } from './firefeed/components'
 import { FilterOption } from './firefeed/FilterOptions'
 const url =
     "https://firms.modaps.eosdis.nasa.gov/api/country/csv/cdf3746fd8e186717bf4fafb16361b8a/VIIRS_SNPP_NRT/LBR/1";
-// const url =
-//     "https://firms.modaps.eosdis.nasa.gov/api/country/csv/cdf3746fd8e186717bf4fafb16361b8a/VIIRS_SNPP_NRT/LBR/1";
-import Papa from "papaparse";
-
 
 const theme = createTheme()
 //JSONS
 import Fire from "@assets/data/Fire.json";
-import { useLocation } from 'react-router-dom'
 
 const MainBox = styled.div`
     display: flex;

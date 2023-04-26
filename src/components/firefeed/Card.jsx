@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import {
     LocalFireDepartmentRounded, FacebookRounded,
-    LocationOn, ShareRounded, LightModeRounded, MapRounded
+    ShareRounded, LightModeRounded, MapRounded
 } from '@mui/icons-material'
 import MainBox, {
     Button, HeadBox, IconWrap, Span, Time,
-    Location, Stack, Menu, MenuItem } from './components'
+    Stack, Menu, MenuItem
+} from './components'
 import { Typography } from '@mui/material';
 import { ActiveFireMarker, HotspotMarker } from '../Markers';
 // import {geocoding} from "reverse-geocoding'"
@@ -18,7 +19,7 @@ const num2time = num => {
 }
 
 function Card(props) {
-    const {fire} = props
+    const { fire } = props
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleOpen = (event) => { setAnchorEl(event.currentTarget); };
@@ -37,22 +38,22 @@ function Card(props) {
                             Active Fire
                         </Span>
                     ) : (
-                            <Span>
-                                <HotspotMarker>
-                                    <LightModeRounded />
-                                </HotspotMarker>
-                                Hotspot
-                            </Span>
+                        <Span>
+                            <HotspotMarker>
+                                <LightModeRounded />
+                            </HotspotMarker>
+                            Hotspot
+                        </Span>
                     )
                 }
 
                 &#8226;
                 <Time>
-                    { num2time(props.time)} - {props.date}
+                    {num2time(props.time)} - {props.date}
                 </Time>
-                                
+
             </HeadBox>
-            
+
             <Typography variant='h5'>
                 <small>
                     {/* {geolocal = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${props.lat},${props.lng}&key=AIzaSyDNqzma-9F5pvmHORMDbJwUxxIjgo00dW8`} */}
@@ -60,7 +61,7 @@ function Card(props) {
                     {props.lat} {" "} &#8226; {props.lng} {" Coord"}
                 </small>
             </Typography>
-            
+
             <Stack>
 
                 <Button variant='contained'>
