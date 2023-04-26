@@ -1,5 +1,5 @@
 import React, {
-    useContext,
+    useContext,useEffect,
     useMemo, useReducer, useState
 } from 'react'
 import styled from "styled-components"
@@ -58,7 +58,7 @@ function FireFeed() {
     let option = FilterOption(state.selected)
     const [slice, setSlice] = useState(10)
     const [fireData, setFireData] = useState([])
-    
+
     useEffect(() => {
         setFireData(fetchData())
     }, [])
