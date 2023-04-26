@@ -36,11 +36,23 @@ function CustomMarkerIcon() {
 }
 
 function Map() {
+    const [map, setMap] = useState(null);
+    const [markers, setMarkers] = useState([]);
     const { isLoaded } = useLoadScript({ googleMapsApiKey: API_KEY });
     const onLoad = useCallback(function callback(map) { setMap(map); }, []);
     if (!isLoaded) { return <Spinner />; }
     const { data } = useContext(withData)
     console.log(data)
+
+    function handleMapClick(event) {
+        // Add a new marker to the array when the map is clicked
+        const newMarker = {
+            lat: event.latLng.lat(),
+            lng: event.latLng.lng(),
+            time: new Date()
+        };
+        setMarkers(current => [...current, newMarker]);
+    }
 
     return (
         <MapBox>
@@ -52,12 +64,9 @@ function Map() {
             >
                 {data.map((marker, key) => (
                     <Marker
-                        key={key}
-                        position={{
-                            lat: parseFloat(marker.latitube),
-                            lng: parseFloat(marker.longitube)
-                        }}
-                        icon={<CustomMarkerIcon />}
+                    key={key}
+                        position={{ lat: parseFloat(marker.latitube), lng: parseFloat(marker.longitube)  }}
+                        icon={"Word"}
                     />
                 ))}
             </GoogleMap>

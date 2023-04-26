@@ -4,22 +4,19 @@ import React, {
 } from 'react'
 import styled from "styled-components"
 import Card from './firefeed/Card'
-import {
-    Button,
-    CircularProgress,
-     createTheme } from '@mui/material'
-import {
-    ExpandMoreRounded,
-    LocalFireDepartmentRounded,
-    LightModeRounded
-} from '@mui/icons-material'
+import { Button, CircularProgress, createTheme } from '@mui/material'
+import { ExpandMoreRounded, LocalFireDepartmentRounded, LightModeRounded } from '@mui/icons-material'
+import { HotspotMarker } from './Markers'
 import { withFilter } from '@contexts/ProvideFilter'
-import { withData } from '@contexts/ProvideData'
 import "./firefeed/firefeed.css"
 import { ButtonGroup, LoadMoreButton } from './firefeed/components'
 import { FilterOption } from './firefeed/FilterOptions'
 const url =
     "https://firms.modaps.eosdis.nasa.gov/api/country/csv/cdf3746fd8e186717bf4fafb16361b8a/VIIRS_SNPP_NRT/LBR/1";
+// const url =
+//     "https://firms.modaps.eosdis.nasa.gov/api/country/csv/cdf3746fd8e186717bf4fafb16361b8a/VIIRS_SNPP_NRT/LBR/1";
+import Papa from "papaparse";
+
 
 const theme = createTheme()
 //JSONS
@@ -58,13 +55,15 @@ function FireFeed() {
     const [state, dispatch] = useReducer(reducer, { selected: "all" })
     const [showMore, setShowMore] = useState(false)
     const { county } = useContext(withFilter)
-    //FIRE DATA
-    const { data } = useContext(withData)
-    //TODO: REMOVE
-    console.log(data)
     const [empty, setEmpty] = useState(false)
     let option = FilterOption(state.selected)
     const [slice, setSlice] = useState(10)
+
+    const fireData = useMemo(() => fetchData(), [])
+    const filteredFire = fireData.slice(0, slice)
+    
+    //TODO: REMOVE
+    console.log(fireData)
 
     const handleShowMore = (e, data) => {
         setShowMore(true)
@@ -88,8 +87,8 @@ function FireFeed() {
         }
         return _data
     }, [county])
-    //FILTER FIREDATA
 
+    //FILTER FIREDATA
     let FilteredData = useMemo(() => FireData.slice(0, slice).filter(option), [FireData, option])
 
     return (
@@ -114,8 +113,8 @@ function FireFeed() {
                 </ButtonGroup>
             </>
             {
-                data.length > 0 ? (
-                    data.map((data, key) => (
+                filteredFire.length > 0 ? (
+                    filteredFire.map((data, key) => (
                         <Card
                             key={key}
                             county={data.county}
@@ -137,7 +136,7 @@ function FireFeed() {
             }
 
             {
-                !empty && FireData.length > 5 && (
+                !empty && fireData.length > 5 && (
                     <>
                         <LoadMoreButton onClick={(e) => { handleShowMore(e, Fire) }}>
                             {
