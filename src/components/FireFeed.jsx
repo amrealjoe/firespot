@@ -56,6 +56,7 @@ function FireFeed() {
     const { county } = useContext(withFilter)
     //FIRE DATA
     const { data } = useContext(withData)
+    //TODO: REMOVE
     console.log(data)
     const [empty, setEmpty] = useState(false)
     let option = FilterOption(state.selected)
@@ -109,15 +110,20 @@ function FireFeed() {
                 </ButtonGroup>
             </>
             {
-                FilteredData.length > 0 ? (
-                    FilteredData.map((data, key) => (
+                data.length > 0 ? (
+                    data.map((data, key) => (
                         <Card
                             key={key}
                             county={data.county}
                             address={data.address}
-                            lat={data.lat}
-                            lng={data.lng}
+                            lat={data.latitude}
+                            lng={data.longitude}
                             status={data.status}
+                            fire={data}
+                            time={data.acq_time}
+                            date={data.acq_date}
+                            confidence={data.confidence}
+                            frp={data.frp}
                         />
                     ))
                 ) :

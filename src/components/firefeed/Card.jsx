@@ -8,14 +8,22 @@ import MainBox, {
     Location, Stack, Menu, MenuItem } from './components'
 import { Typography } from '@mui/material';
 import { ActiveFireMarker, HotspotMarker } from '../Markers';
+// import {geocoding} from "reverse-geocoding'"
+// import { Geocoder } from "node-geocoder";
 
+const num2time = num => {
+    if (num < 100) num *= 100;
+    const [_, hh, mm] = num.toString().match(/(\d{1,2})(\d{2})$/)
+    return `${hh.padStart(2, "0")}:${mm}`
+}
 
 function Card(props) {
-
+    const {fire} = props
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleOpen = (event) => { setAnchorEl(event.currentTarget); };
     const handleClose = () => { setAnchorEl(null); };
+    let geolocal;
 
     return (
         <MainBox>
@@ -40,14 +48,16 @@ function Card(props) {
 
                 &#8226;
                 <Time>
-                    13:21 pm
+                    { num2time(props.time)} - {props.date}
                 </Time>
                                 
             </HeadBox>
             
             <Typography variant='h5'>
                 <small>
-                    {props.address} {" "} &#8226; {props.county} {" County"}
+                    {/* {geolocal = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${props.lat},${props.lng}&key=AIzaSyDNqzma-9F5pvmHORMDbJwUxxIjgo00dW8`} */}
+                    {/* {geolocal} */}
+                    {props.lat} {" "} &#8226; {props.lng} {" Coord"}
                 </small>
             </Typography>
             

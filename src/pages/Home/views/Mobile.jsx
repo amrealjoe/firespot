@@ -13,10 +13,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 
-// import "./css/maps.css"
-// const API_KEY = "AIzaSyDNqzma-9F5pvmHORMDbJwUxxIjgo00dW8"
-// import DesktopMap from "@/DesktopMap"
-
 //CUSTOM COMPONENTS
 import FireFeed from '@/FireFeed';
 import MobileMap from "@/MobileMap"

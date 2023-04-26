@@ -4,7 +4,7 @@ import Grid from '@mui/material/Grid';
 
 //CUSTOM COMPONENTS
 import FireFeed from '@/FireFeed';
-import DesktopMap from "@/DesktopMap"
+import Map from "@/Map"
 
 //STYLED COMPONENTS
 const FeedBox = styled.div`
@@ -31,7 +31,7 @@ function DesktopView() {
             </Grid>
             <Grid item xs={7}>
                 <MapBox>
-                    <DesktopMap />
+                    <Map />
                 </MapBox>
             </Grid>
         </Grid>
