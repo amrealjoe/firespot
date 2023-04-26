@@ -13,10 +13,9 @@ import { ButtonGroup, LoadMoreButton } from './firefeed/components'
 import { FilterOption } from './firefeed/FilterOptions'
 const url =
     "https://firms.modaps.eosdis.nasa.gov/api/country/csv/cdf3746fd8e186717bf4fafb16361b8a/VIIRS_SNPP_NRT/LBR/1";
-// const url =
-//     "https://firms.modaps.eosdis.nasa.gov/api/country/csv/cdf3746fd8e186717bf4fafb16361b8a/VIIRS_SNPP_NRT/LBR/1";
-import Papa from "papaparse";
 
+import Papa from "papaparse";
+import fetchData from '@helpers/fetchData'
 
 const theme = createTheme()
 //JSONS

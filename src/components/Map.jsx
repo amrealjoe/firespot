@@ -1,11 +1,12 @@
-import React, { useState, useContext, useCallback } from 'react'
+import React, { useState, useCallback } from 'react'
 import styled from 'styled-components'
 import "./css/maps.css"
 const API_KEY = "AIzaSyDNqzma-9F5pvmHORMDbJwUxxIjgo00dW8"
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api'
 import Spinner from "@/Spinner"
-import { withData } from '@contexts/ProvideData'
- 
+import { useLocation } from 'react-router-dom'
+import fetchData from '../helpers/fetchData'
+import { LocalFireDepartment } from '@mui/icons-material'
 //STYLED COMPONENTS
 const MapBox = styled.div`
     width: 660px;
@@ -24,36 +25,12 @@ const center = {
 
 const zoom = 7.5
 
-function CustomMarkerIcon() {
-    return (
-        <div style={{
-            backgroundColor: 'red',
-            width: '50px',
-            height: '50px',
-            borderRadius: '50%'
-        }}></div>
-    );
-}
-
 function Map() {
     const [map, setMap] = useState(null);
-    const [markers, setMarkers] = useState([]);
     const { isLoaded } = useLoadScript({ googleMapsApiKey: API_KEY });
     const onLoad = useCallback(function callback(map) { setMap(map); }, []);
     if (!isLoaded) { return <Spinner />; }
-    const fireData = useMemo(() => fetchData(), [])
-    // const { data } = useContext(withData)
-    // console.log(data)
-
-    function handleMapClick(event) {
-        // Add a new marker to the array when the map is clicked
-        const newMarker = {
-            lat: event.latLng.lat(),
-            lng: event.latLng.lng(),
-            time: new Date()
-        };
-        setMarkers(current => [...current, newMarker]);
-    }
+    const fireData = fetchData()
 
     return (
         <MapBox>
@@ -66,8 +43,11 @@ function Map() {
                 {fireData.map((marker, key) => (
                     <Marker
                     key={key}
-                        position={{ lat: parseFloat(marker.latitube), lng: parseFloat(marker.longitube)  }}
-                        icon={"Word"}
+                        position={{
+                            lat: parseFloat(marker.latitube),
+                            lng: parseFloat(marker.longitube)
+                        }}
+                        icon={<LocalFireDepartment />}
                     />
                 ))}
             </GoogleMap>
