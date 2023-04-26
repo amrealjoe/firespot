@@ -1,18 +1,21 @@
 import React, {
-    useContext,useEffect,
+    useContext,
     useMemo, useReducer, useState
 } from 'react'
 import styled from "styled-components"
 import Card from './firefeed/Card'
 import { Button, CircularProgress, createTheme } from '@mui/material'
 import { ExpandMoreRounded, LocalFireDepartmentRounded, LightModeRounded } from '@mui/icons-material'
+import { HotspotMarker } from './Markers'
 import { withFilter } from '@contexts/ProvideFilter'
 import "./firefeed/firefeed.css"
 import { ButtonGroup, LoadMoreButton } from './firefeed/components'
 import { FilterOption } from './firefeed/FilterOptions'
 const url =
     "https://firms.modaps.eosdis.nasa.gov/api/country/csv/cdf3746fd8e186717bf4fafb16361b8a/VIIRS_SNPP_NRT/LBR/1";
-
+// const url =
+//     "https://firms.modaps.eosdis.nasa.gov/api/country/csv/cdf3746fd8e186717bf4fafb16361b8a/VIIRS_SNPP_NRT/LBR/1";
+import Papa from "papaparse";
 import fetchData from '@helpers/fetchData'
 
 const theme = createTheme()
@@ -55,12 +58,8 @@ function FireFeed() {
     const [empty, setEmpty] = useState(false)
     let option = FilterOption(state.selected)
     const [slice, setSlice] = useState(10)
-    const [fireData, setFireData] = useState([])
 
-    useEffect(() => {
-        setFireData(fetchData())
-    }, [])
-    // const fireData = useMemo(() => fetchData(), [])
+    const fireData = fetchData()
     const filteredFire = fireData.slice(0, slice)
     
     //TODO: REMOVE

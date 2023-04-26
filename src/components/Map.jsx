@@ -30,12 +30,7 @@ function Map() {
     const { isLoaded } = useLoadScript({ googleMapsApiKey: API_KEY });
     const onLoad = useCallback(function callback(map) { setMap(map); }, []);
     if (!isLoaded) { return <Spinner />; }
-    const [fireData, setFireData] = useState([])
-
-    useEffect(() => {
-        setFireData(fetchData())
-    }, [])
-    
+    const fireData = fetchData()
 
     return (
         <MapBox>
