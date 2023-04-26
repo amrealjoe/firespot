@@ -1,11 +1,11 @@
-import React, { useContext, useCallback } from 'react'
+import React, { useState, useContext, useCallback } from 'react'
 import styled from 'styled-components'
 import "./css/maps.css"
 const API_KEY = "AIzaSyDNqzma-9F5pvmHORMDbJwUxxIjgo00dW8"
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api'
 import Spinner from "@/Spinner"
 import { withData } from '@contexts/ProvideData'
-
+ 
 //STYLED COMPONENTS
 const MapBox = styled.div`
     width: 660px;
@@ -41,8 +41,9 @@ function Map() {
     const { isLoaded } = useLoadScript({ googleMapsApiKey: API_KEY });
     const onLoad = useCallback(function callback(map) { setMap(map); }, []);
     if (!isLoaded) { return <Spinner />; }
-    const { data } = useContext(withData)
-    console.log(data)
+    const fireData = useMemo(() => fetchData(), [])
+    // const { data } = useContext(withData)
+    // console.log(data)
 
     function handleMapClick(event) {
         // Add a new marker to the array when the map is clicked
@@ -62,7 +63,7 @@ function Map() {
                 zoom={zoom}
                 onLoad={onLoad}
             >
-                {data.map((marker, key) => (
+                {fireData.map((marker, key) => (
                     <Marker
                     key={key}
                         position={{ lat: parseFloat(marker.latitube), lng: parseFloat(marker.longitube)  }}
