@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import styled from 'styled-components'
 import "./css/maps.css"
 const API_KEY = "AIzaSyDNqzma-9F5pvmHORMDbJwUxxIjgo00dW8"
@@ -30,7 +30,12 @@ function Map() {
     const { isLoaded } = useLoadScript({ googleMapsApiKey: API_KEY });
     const onLoad = useCallback(function callback(map) { setMap(map); }, []);
     if (!isLoaded) { return <Spinner />; }
-    const fireData = fetchData()
+    const [fireData, setFireData] = useState([])
+
+    useEffect(() => {
+        setFireData(fetchData())
+    }, [])
+    
 
     return (
         <MapBox>

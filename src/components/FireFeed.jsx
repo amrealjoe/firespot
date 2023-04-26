@@ -57,8 +57,12 @@ function FireFeed() {
     const [empty, setEmpty] = useState(false)
     let option = FilterOption(state.selected)
     const [slice, setSlice] = useState(10)
-
-    const fireData = useMemo(() => fetchData(), [])
+    const [fireData, setFireData] = useState([])
+    
+    useEffect(() => {
+        setFireData(fetchData())
+    }, [])
+    // const fireData = useMemo(() => fetchData(), [])
     const filteredFire = fireData.slice(0, slice)
     
     //TODO: REMOVE
