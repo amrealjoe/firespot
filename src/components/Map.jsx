@@ -1,11 +1,13 @@
-import React, { useState, useContext, useCallback } from 'react'
+import React, { useState, useContext, useCallback, useMemo } from 'react'
 import styled from 'styled-components'
 import "./css/maps.css"
 const API_KEY = "AIzaSyDNqzma-9F5pvmHORMDbJwUxxIjgo00dW8"
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api'
 import Spinner from "@/Spinner"
 import { withData } from '@contexts/ProvideData'
- 
+import fetchData from '@helpers/fetchData'
+
+
 //STYLED COMPONENTS
 const MapBox = styled.div`
     width: 660px;
@@ -40,8 +42,9 @@ function Map() {
     const { isLoaded } = useLoadScript({ googleMapsApiKey: API_KEY });
     const onLoad = useCallback(function callback(map) { setMap(map); }, []);
     if (!isLoaded) { return <Spinner />; }
-    const { data } = useContext(withData)
-    console.log(data)
+    const fireData = useMemo(() => fetchData(), [])
+    // const { data } = useContext(withData)
+    // console.log(data)
 
 
 
@@ -53,7 +56,7 @@ function Map() {
                 zoom={zoom}
                 onLoad={onLoad}
             >
-                {data.map((marker, key) => (
+                {fireData.map((marker, key) => (
                     <Marker
                     key={key}
                         position={{
