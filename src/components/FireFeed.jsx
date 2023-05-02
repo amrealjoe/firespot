@@ -13,14 +13,14 @@ import { ButtonGroup, LoadMoreButton } from './firefeed/components'
 import { FilterOption } from './firefeed/FilterOptions'
 const url =
     "https://firms.modaps.eosdis.nasa.gov/api/country/csv/cdf3746fd8e186717bf4fafb16361b8a/VIIRS_SNPP_NRT/LBR/1";
-// const url =
-//     "https://firms.modaps.eosdis.nasa.gov/api/country/csv/cdf3746fd8e186717bf4fafb16361b8a/VIIRS_SNPP_NRT/LBR/1";
+const mainURL = "https://firms.modaps.eosdis.nasa.gov/api/country/csv/72af24ec4f81157ca8296b8e6a449685/VIIRS_SNPP_NRT/LBR/3/2023-05-02"
 import Papa from "papaparse";
 import fetchData from '@helpers/fetchData'
 
 const theme = createTheme()
 //JSONS
 import Fire from "@assets/data/Fire.json";
+import NASAFire from "@assets/data/nasafire.json";
 
 const MainBox = styled.div`
     display: flex;
@@ -113,20 +113,21 @@ function FireFeed() {
                 </ButtonGroup>
             </>
             {
-                FilteredData.length > 0 ? (
-                    FilteredData.map((data, key) => (
+                NASAFire.length > 0 ? (
+                    NASAFire.map((data, key) => (
                         <Card
                             key={key}
-                            county={data.county}
-                            address={data.address}
-                            lat={data.latitude}
-                            lng={data.longitude}
-                            status={data.status}
+                            county={data?.county}
+                            address={data?.address}
+                            lat={data?.latitude}
+                            lng={data?.longitude}
+                            status={true}
                             fire={data}
-                            time={data.acq_time}
-                            date={data.acq_date}
-                            confidence={data.confidence}
-                            frp={data.frp}
+                            time={data?.acq_time}
+                            date={data?.acq_date}
+                            confidence={data?.confidence}
+                            frp={data?.frp}
+                            details={data}
                         />
                     ))
                 ) :

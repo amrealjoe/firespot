@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import {
     LocalFireDepartmentRounded, FacebookRounded,
     ShareRounded, LightModeRounded, MapRounded
@@ -10,6 +10,11 @@ import MainBox, {
 import { Typography } from '@mui/material';
 import { ActiveFireMarker, HotspotMarker } from '../Markers';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import Num2Time from "@helpers/Num2Time"
+import { useMemo } from 'react';
+
+const url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=AIzaSyDNqzma-9F5pvmHORMDbJwUxxIjgo00dW8"
+
 
 function Card(props) {
     // const { fire } = props
@@ -24,9 +29,33 @@ function Card(props) {
         })
     }
 
+    const loadAddress = async (lat, lng) => {
+        let addresses = []
+        const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyDNqzma-9F5pvmHORMDbJwUxxIjgo00dW8`)
+            .then(response => response.json())
+            .then((result => result))
+            .catch(err => console.log(err));
+        const { results } = response
+        results.forEach(element => {
+            addresses.push(element.formatted_address)
+        });
+            return addresses
+    }
+
+    const ad = useCallback( () =>  loadAddress(props.lat, props.lng), [props.lat, props.lng])
+    
+
+    // const [address, setAddress] = useState("")
+    const [time, setTime] = useState(0)
+    useEffect(() => {
+        // setAddress(loadAddress(props.lat, props.lng))
+        setTime(Num2Time(props.time))
+    }, [])
+    
+
+
     return (
         <MainBox>
-            {fireURL}
             <HeadBox>
                 {
                     props.status ? (
@@ -48,19 +77,17 @@ function Card(props) {
 
                 &#8226;
                 <Time>
-                    {/* {num2time(props.time)} - {props.date} */}
-                    13:21 pm
+                    {time}
+                    {/* 13:21 pm */}
                 </Time>
 
             </HeadBox>
 
             <Typography variant='h5'>
                 <small>
-                    {/* {geolocal = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${props.lat},${props.lng}&key=AIzaSyDNqzma-9F5pvmHORMDbJwUxxIjgo00dW8`} */}
-                    {/* {geolocal} */}
+                    {console.log(JSON.stringify(ad))}
                     {/* {props.lat} {" "} &#8226; {props.lng} {" Coord"} */}
-                    {props.address} {" "} &#8226; {props.county} {" County"}
-
+                    {/* {props.address} {" "} &#8226; {props.county} {" County"} */}
                 </small>
             </Typography>
 
@@ -68,7 +95,7 @@ function Card(props) {
 
                 <Button
                     variant='contained'
-                    onClick={() => handleViewOnMap(10.0340, 23.0978)}
+                    onClick={() => handleViewOnMap(props.lat, props.lng)}
                 >
                     <IconWrap>
                         <MapRounded />
