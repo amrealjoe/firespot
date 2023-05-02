@@ -113,8 +113,8 @@ function FireFeed() {
                 </ButtonGroup>
             </>
             {
-                filteredFire.length > 0 ? (
-                    filteredFire.map((data, key) => (
+                FilteredData.length > 0 ? (
+                    FilteredData.map((data, key) => (
                         <Card
                             key={key}
                             county={data.county}

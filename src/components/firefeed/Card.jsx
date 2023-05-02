@@ -9,17 +9,24 @@ import MainBox, {
 } from './components'
 import { Typography } from '@mui/material';
 import { ActiveFireMarker, HotspotMarker } from '../Markers';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 function Card(props) {
-    const { fire } = props
-    const [anchorEl, setAnchorEl] = useState(null);
-    const open = Boolean(anchorEl);
-    const handleOpen = (event) => { setAnchorEl(event.currentTarget); };
-    const handleClose = () => { setAnchorEl(null); };
-    let geolocal;
+    // const { fire } = props
+    const navigate = useNavigate()
+    const [searchParams, setSearchParams] = useSearchParams()
+    const handleViewOnMap = (lat, lng) => { navigate(`?fire=lat${lat}&long${lng}`) }
+    const fireURL = searchParams.get("fire")
+    function handleSharing() {
+        navigator.share({
+            title: `Active fire is at ${props.address}`,
+            url: `?fire=${props.lat}&${props.lng}`
+        })
+    }
 
     return (
         <MainBox>
+            {fireURL}
             <HeadBox>
                 {
                     props.status ? (
@@ -41,7 +48,8 @@ function Card(props) {
 
                 &#8226;
                 <Time>
-                    {num2time(props.time)} - {props.date}
+                    {/* {num2time(props.time)} - {props.date} */}
+                    13:21 pm
                 </Time>
 
             </HeadBox>
@@ -50,13 +58,18 @@ function Card(props) {
                 <small>
                     {/* {geolocal = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${props.lat},${props.lng}&key=AIzaSyDNqzma-9F5pvmHORMDbJwUxxIjgo00dW8`} */}
                     {/* {geolocal} */}
-                    {props.lat} {" "} &#8226; {props.lng} {" Coord"}
+                    {/* {props.lat} {" "} &#8226; {props.lng} {" Coord"} */}
+                    {props.address} {" "} &#8226; {props.county} {" County"}
+
                 </small>
             </Typography>
 
             <Stack>
 
-                <Button variant='contained'>
+                <Button
+                    variant='contained'
+                    onClick={() => handleViewOnMap(10.0340, 23.0978)}
+                >
                     <IconWrap>
                         <MapRounded />
                     </IconWrap>
@@ -64,41 +77,14 @@ function Card(props) {
                 </Button>
                 <Button
                     variant='contained'
-                    aria-controls={open ? 'share-menu' : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? 'true' : undefined}
-                    onClick={handleOpen}
+                    onClick={handleSharing}
                 >
                     <IconWrap>
                         <ShareRounded />
                     </IconWrap>
                     Share
                 </Button>
-                <Menu
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={handleClose}
-                    MenuListProps={{
-                        'aria-labelledby': 'share-button',
-                    }}
-                >
-                    <MenuItem onClick={handleClose}>
-                        <IconWrap>
-                            <FacebookRounded />
-                        </IconWrap>
-                        Facebook
-                    </MenuItem>
-                    <MenuItem onClick={handleClose}>
-                        <IconWrap>
-                            <ShareRounded />
-                        </IconWrap>
-                        WhatsApp</MenuItem>
-                    <MenuItem onClick={handleClose}>
-                        <IconWrap>
-                            <ShareRounded />
-                        </IconWrap>
-                        Twitter</MenuItem>
-                </Menu>
+
             </Stack>
         </MainBox>
     )
