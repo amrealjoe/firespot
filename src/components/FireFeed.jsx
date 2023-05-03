@@ -61,7 +61,7 @@ function FireFeed() {
 
     const fireData = fetchData()
     const filteredFire = fireData.slice(0, slice)
-    
+
     //TODO: REMOVE
     console.log(fireData)
 
@@ -137,15 +137,13 @@ function FireFeed() {
             }
 
             {
-                !empty && fireData.length > 5 && (
-                    <>
-                        <LoadMoreButton onClick={(e) => { handleShowMore(e, Fire) }}>
-                            {
-                                showMore ? <><CircularProgress sx={{ color: "white" }} /></> :
-                                    <>Show More <ExpandMoreRounded /></>
-                            }
-                        </LoadMoreButton>
-                    </>
+                !empty && NASAFire.length > 5 && (
+                    <LoadMoreButton onClick={(e) => { handleShowMore(e, NASAFire) }}>
+                        {
+                            showMore ? <><CircularProgress sx={{ color: "white" }} /></> :
+                                <>Show More <ExpandMoreRounded /></>
+                        }
+                    </LoadMoreButton>
                 )
             }
 

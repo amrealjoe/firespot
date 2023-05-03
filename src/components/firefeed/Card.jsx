@@ -9,18 +9,21 @@ import MainBox, {
 } from './components'
 import { Typography } from '@mui/material';
 import { ActiveFireMarker, HotspotMarker } from '../Markers';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import Num2Time from "@helpers/Num2Time"
 import { useMemo } from 'react';
+import { loadAddress } from './helpers';
 
 const url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=AIzaSyDNqzma-9F5pvmHORMDbJwUxxIjgo00dW8"
+const api_key = "AIzaSyDNqzma-9F5pvmHORMDbJwUxxIjgo00dW8"
 
 
 function Card(props) {
-    // const { fire } = props
     const navigate = useNavigate()
     const [searchParams, setSearchParams] = useSearchParams()
     const handleViewOnMap = (lat, lng) => { navigate(`?fire=lat${lat}&long${lng}`) }
+    const [addresses, setAddresses] = useState([])
+    const location = useLocation()
     const fireURL = searchParams.get("fire")
     function handleSharing() {
         navigator.share({
@@ -29,30 +32,20 @@ function Card(props) {
         })
     }
 
-    const loadAddress = async (lat, lng) => {
-        let addresses = []
-        const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyDNqzma-9F5pvmHORMDbJwUxxIjgo00dW8`)
-            .then(response => response.json())
-            .then((result => result))
-            .catch(err => console.log(err));
-        const { results } = response
-        results.forEach(element => {
-            addresses.push(element.formatted_address)
-        });
-            return addresses
+    const runner = async () => {
+        setAddresses(await loadAddress(props.lat, props.lng, api_key))
     }
-
-    const ad = useCallback( () =>  loadAddress(props.lat, props.lng), [props.lat, props.lng])
-    
-
-    // const [address, setAddress] = useState("")
-    const [time, setTime] = useState(0)
     useEffect(() => {
-        // setAddress(loadAddress(props.lat, props.lng))
-        setTime(Num2Time(props.time))
+        runner()
     }, [])
-    
 
+    // const address = addresses[0]?.formatted_address
+    const address = addresses[0].address_components || []
+    const place = address[1]?.long_name || "Loading..."
+    const city = address[2]?.long_name || "Loading..."
+    const county = address[3]?.long_name || "Loading..."
+
+    console.log(address)
 
     return (
         <MainBox>
@@ -60,9 +53,9 @@ function Card(props) {
                 {
                     props.status ? (
                         <Span>
-                            <ActiveFireMarker>
+                            <addresstiveFireMarker>
                                 <LocalFireDepartmentRounded />
-                            </ActiveFireMarker>
+                            </addresstiveFireMarker>
                             Active Fire
                         </Span>
                     ) : (
@@ -77,7 +70,7 @@ function Card(props) {
 
                 &#8226;
                 <Time>
-                    {time}
+                    {Num2Time(props.time)}
                     {/* 13:21 pm */}
                 </Time>
 
@@ -85,9 +78,10 @@ function Card(props) {
 
             <Typography variant='h5'>
                 <small>
-                    {console.log(JSON.stringify(ad))}
-                    {/* {props.lat} {" "} &#8226; {props.lng} {" Coord"} */}
-                    {/* {props.address} {" "} &#8226; {props.county} {" County"} */}
+                    {/* {address} */}
+                    {/* {props.lat} {" "} &#8226; {props.lng} {" Coordinate "} */}
+                    {/* {res} */}
+                    {place + ", " + city} {" "} &#8226; {county}
                 </small>
             </Typography>
 
