@@ -13,14 +13,14 @@ import { ButtonGroup, LoadMoreButton } from './firefeed/components'
 import { FilterOption } from './firefeed/FilterOptions'
 const url =
     "https://firms.modaps.eosdis.nasa.gov/api/country/csv/cdf3746fd8e186717bf4fafb16361b8a/VIIRS_SNPP_NRT/LBR/1";
-// const url =
-//     "https://firms.modaps.eosdis.nasa.gov/api/country/csv/cdf3746fd8e186717bf4fafb16361b8a/VIIRS_SNPP_NRT/LBR/1";
+const mainURL = "https://firms.modaps.eosdis.nasa.gov/api/country/csv/72af24ec4f81157ca8296b8e6a449685/VIIRS_SNPP_NRT/LBR/3/2023-05-02"
 import Papa from "papaparse";
 import fetchData from '@helpers/fetchData'
 
 const theme = createTheme()
 //JSONS
 import Fire from "@assets/data/Fire.json";
+import NASAFire from "@assets/data/nasafire.json";
 
 const MainBox = styled.div`
     display: flex;
@@ -58,12 +58,7 @@ function FireFeed() {
     const [empty, setEmpty] = useState(false)
     let option = FilterOption(state.selected)
     const [slice, setSlice] = useState(10)
-
     const fireData = fetchData()
-    const filteredFire = fireData.slice(0, slice)
-    
-    //TODO: REMOVE
-    console.log(fireData)
 
     const handleShowMore = (e, data) => {
         setShowMore(true)
@@ -117,16 +112,8 @@ function FireFeed() {
                     FilteredData.map((data, key) => (
                         <Card
                             key={key}
-                            county={data.county}
-                            address={data.address}
-                            lat={data.latitude}
-                            lng={data.longitude}
-                            status={data.status}
-                            fire={data}
-                            time={data.acq_time}
-                            date={data.acq_date}
-                            confidence={data.confidence}
-                            frp={data.frp}
+                            status={true}
+                            details={data}
                         />
                     ))
                 ) :
@@ -136,15 +123,13 @@ function FireFeed() {
             }
 
             {
-                !empty && fireData.length > 5 && (
-                    <>
-                        <LoadMoreButton onClick={(e) => { handleShowMore(e, Fire) }}>
-                            {
-                                showMore ? <><CircularProgress sx={{ color: "white" }} /></> :
-                                    <>Show More <ExpandMoreRounded /></>
-                            }
-                        </LoadMoreButton>
-                    </>
+                !empty && Fire.length > 5 && (
+                    <LoadMoreButton onClick={(e) => { handleShowMore(e, Fire) }}>
+                        {
+                            showMore ? <><CircularProgress sx={{ color: "white" }} /></> :
+                                <>Show More <ExpandMoreRounded /></>
+                        }
+                    </LoadMoreButton>
                 )
             }
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components'
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -12,6 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import withModal from '@contexts/ProvideModal';
 
 //CUSTOM COMPONENTS
 import FireFeed from '@/FireFeed';
@@ -43,6 +44,7 @@ const Dialog = styled(MuiDialog)`
 `
 
 function MobileView() {
+    const { modal, openModal, closeModal } = useContext(withModal)
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -54,12 +56,12 @@ function MobileView() {
             <FeedBox>
                 <FireFeed />
             </FeedBox>
-            <Button onClick={handleOpen}>Open Modal</Button>
+            {/*MODAL OPEN ONLY ON SMALL SCREENS */}
             <MediaQuery maxWidth={991}>
                 <Dialog
                     fullScreen
-                    open={open}
-                    onClose={handleClose}
+                    open={modal}
+                    onClose={closeModal}
                     aria-labelledby="title"
                     aria-describedby="description"
                 >
@@ -67,7 +69,7 @@ function MobileView() {
                         {"Fire Location"}
                         <IconButton
                             aria-label="close"
-                            onClick={handleClose}
+                            onClick={closeModal}
                             sx={{
                                 position: 'absolute',
                                 right: 8,
