@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useContext, useEffect } from 'react'
 import styled from 'styled-components'
 import "./css/maps.css"
+//TODO: use .env variable for api key
 const API_KEY = "AIzaSyDNqzma-9F5pvmHORMDbJwUxxIjgo00dW8"
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api'
 import Spinner from "@/Spinner"

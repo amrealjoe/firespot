@@ -72,21 +72,6 @@ function Card(props) {
         })
     }
 
-    // const runner = async () => {
-    //     setAddresses(await loadAddress(props.lat, props.lng, api_key))
-    // }
-    // useEffect(() => {
-    //     runner()
-    // }, [])
-
-    // // const address = addresses[0]?.formatted_address
-    // const address = addresses[0]?.address_components || []
-    // const place = address[1]?.long_name || "Loading..."
-    // const city = address[2]?.long_name || "Loading..."
-    // const county = address[3]?.long_name || "Loading..."
-
-    // console.log(address)
-
 
 
 
