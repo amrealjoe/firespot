@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import {
     LocalFireDepartmentRounded, FacebookRounded,
     ShareRounded, LightModeRounded, MapRounded
@@ -13,18 +13,58 @@ import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import Num2Time from "@helpers/Num2Time"
 import { useMemo } from 'react';
 import { loadAddress } from './helpers';
+import withModal from '@contexts/ProvideModal';
 
 const url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=AIzaSyDNqzma-9F5pvmHORMDbJwUxxIjgo00dW8"
 const api_key = "AIzaSyDNqzma-9F5pvmHORMDbJwUxxIjgo00dW8"
+import { useMediaQuery } from 'react-responsive'
+import { withMaker } from '@contexts/ProvideMarker';
 
+function getCoord(coord) {
+    return { lat, lng }
+}
 
 function Card(props) {
-    const navigate = useNavigate()
+    //STATE VARIABLES
     const [searchParams, setSearchParams] = useSearchParams()
-    const handleViewOnMap = (lat, lng) => { navigate(`?fire=lat${lat}&long${lng}`) }
+    const { details } = props
+    const isTabletOrMobile = useMediaQuery({ maxWidth: 1224 })
+    const { openModal } = useContext(withModal)
+    const navigate = useNavigate()
     const [addresses, setAddresses] = useState([])
     const location = useLocation()
-    const fireURL = searchParams.get("fire")
+    const {
+        zoom,
+        setZoom,
+        ctxLat,
+        setCtxLat,
+        ctxLng,
+        setCtxLng } = useContext(withMaker)
+
+    useEffect(() => {
+        const s_param = searchParams.get("latlng")
+        let latlng
+        if (s_param) {
+            latlng = s_param.split(",")
+            setCtxLat(latlng[0])
+            setCtxLng(latlng[1])
+            setZoom(15)
+        } else {
+            setZoom(7.5)
+        }
+        //TODO: Pass lat and lng to map marker
+        //to be display when the button is clicked on the card
+    }, [location.search])
+
+
+    // console.log(JSON.stringify(latlng))
+
+    //HANDLERS
+    const handleViewOnMap = (lat, lng) => {
+        navigate(`?latlng=${lat},${lng}`)
+        if (isTabletOrMobile) { openModal() }
+    }
+
     function handleSharing() {
         navigator.share({
             title: `Active fire is at ${props.address}`,
@@ -32,30 +72,34 @@ function Card(props) {
         })
     }
 
-    const runner = async () => {
-        setAddresses(await loadAddress(props.lat, props.lng, api_key))
-    }
-    useEffect(() => {
-        runner()
-    }, [])
+    // const runner = async () => {
+    //     setAddresses(await loadAddress(props.lat, props.lng, api_key))
+    // }
+    // useEffect(() => {
+    //     runner()
+    // }, [])
 
-    // const address = addresses[0]?.formatted_address
-    const address = addresses[0].address_components || []
-    const place = address[1]?.long_name || "Loading..."
-    const city = address[2]?.long_name || "Loading..."
-    const county = address[3]?.long_name || "Loading..."
+    // // const address = addresses[0]?.formatted_address
+    // const address = addresses[0]?.address_components || []
+    // const place = address[1]?.long_name || "Loading..."
+    // const city = address[2]?.long_name || "Loading..."
+    // const county = address[3]?.long_name || "Loading..."
 
-    console.log(address)
+    // console.log(address)
+
+
+
 
     return (
         <MainBox>
+            {/* {ctxLat + " - " + ctxLng + " - " + zoom} */}
             <HeadBox>
                 {
-                    props.status ? (
+                    details.status ? (
                         <Span>
-                            <addresstiveFireMarker>
+                            <ActiveFireMarker>
                                 <LocalFireDepartmentRounded />
-                            </addresstiveFireMarker>
+                            </ActiveFireMarker>
                             Active Fire
                         </Span>
                     ) : (
@@ -70,18 +114,15 @@ function Card(props) {
 
                 &#8226;
                 <Time>
-                    {Num2Time(props.time)}
-                    {/* 13:21 pm */}
+                    {/* {Num2Time(props?.time)} */}
+                    13:21 pm
                 </Time>
 
             </HeadBox>
 
             <Typography variant='h5'>
                 <small>
-                    {/* {address} */}
-                    {/* {props.lat} {" "} &#8226; {props.lng} {" Coordinate "} */}
-                    {/* {res} */}
-                    {place + ", " + city} {" "} &#8226; {county}
+                    {details.address + " "} &#8226; {details.county}
                 </small>
             </Typography>
 
@@ -89,7 +130,7 @@ function Card(props) {
 
                 <Button
                     variant='contained'
-                    onClick={() => handleViewOnMap(props.lat, props.lng)}
+                    onClick={() => handleViewOnMap(details.lat, details.lng)}
                 >
                     <IconWrap>
                         <MapRounded />

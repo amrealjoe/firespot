@@ -58,12 +58,7 @@ function FireFeed() {
     const [empty, setEmpty] = useState(false)
     let option = FilterOption(state.selected)
     const [slice, setSlice] = useState(10)
-
     const fireData = fetchData()
-    const filteredFire = fireData.slice(0, slice)
-
-    //TODO: REMOVE
-    console.log(fireData)
 
     const handleShowMore = (e, data) => {
         setShowMore(true)
@@ -113,20 +108,11 @@ function FireFeed() {
                 </ButtonGroup>
             </>
             {
-                NASAFire.length > 0 ? (
-                    NASAFire.map((data, key) => (
+                FilteredData.length > 0 ? (
+                    FilteredData.map((data, key) => (
                         <Card
                             key={key}
-                            county={data?.county}
-                            address={data?.address}
-                            lat={data?.latitude}
-                            lng={data?.longitude}
                             status={true}
-                            fire={data}
-                            time={data?.acq_time}
-                            date={data?.acq_date}
-                            confidence={data?.confidence}
-                            frp={data?.frp}
                             details={data}
                         />
                     ))
@@ -137,8 +123,8 @@ function FireFeed() {
             }
 
             {
-                !empty && NASAFire.length > 5 && (
-                    <LoadMoreButton onClick={(e) => { handleShowMore(e, NASAFire) }}>
+                !empty && Fire.length > 5 && (
+                    <LoadMoreButton onClick={(e) => { handleShowMore(e, Fire) }}>
                         {
                             showMore ? <><CircularProgress sx={{ color: "white" }} /></> :
                                 <>Show More <ExpandMoreRounded /></>
