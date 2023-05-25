@@ -1,36 +1,26 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { LocalFireDepartmentRounded, ShareRounded, LightModeRounded, MapRounded} from '@mui/icons-material'
 import MainBox, { Button, HeadBox, IconWrap, Span, Time, Stack} from './components'
 import { Typography } from '@mui/material';
 import { ActiveFireMarker, HotspotMarker } from '../Markers';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import { loadAddress } from './helpers';
+import { useNavigate } from 'react-router-dom';
 import withModal from '@contexts/ProvideModal';
 import { useMediaQuery } from 'react-responsive'
-import { withMaker } from '@contexts/ProvideMarker';
 const api_key = import.meta.env.VITE_MAP_API_KEY
+import { getAddress } from '@helpers/getAddress';
 
 function Card(props) {
     //STATE VARIABLES
-    const [searchParams, setSearchParams] = useSearchParams()
     const { details } = props
     const isTabletOrMobile = useMediaQuery({ maxWidth: 1224 })
     const { openModal } = useContext(withModal)
     const navigate = useNavigate()
-    const [addresses, setAddresses] = useState([])
-    const location = useLocation()
-    
+    const [address, setAddress] = useState(getAddress(details.lat, details.lng, api_key))
 
-    useEffect(() => {
-        loadAddress(details.lat, details.lng, api_key)
-        console.log(addresses)
-    }, [])
 
     //HANDLERS
     const handleViewOnMap = (lat, lng) => {
         navigate(`?latlng=${lat},${lng}`)
-        setCtxLat(lat)
-        setCtxLng(lng)
         if (isTabletOrMobile) { openModal() }
     }
 
@@ -83,7 +73,7 @@ function Card(props) {
 
                 <Button
                     variant='contained'
-                    onClick={() => handleViewOnMap(details.latitude, details.longitude)}
+                    onClick={() => handleViewOnMap(details.lat, details.lng)}
                 >
                     <IconWrap>
                         <MapRounded />
