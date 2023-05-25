@@ -1,26 +1,32 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
 import Papa from "papaparse";
 import { useLocation } from "react-router-dom";
-const url =
-    "https://firms.modaps.eosdis.nasa.gov/api/country/csv/72af24ec4f81157ca8296b8e6a449685/VIIRS_SNPP_NRT/LBR/1";
+import { withFilter } from '@contexts/ProvideFilter'
+import DemoFireData from "@assets/data/Fire.json";
+import DemoNASAFireData from "@assets/data/nasafire.json";
+
 
 export const withData = createContext(null)
 
-export function ProvideData({ children }) {
+const FIRE_DATA_URL = import.meta.env.VITE_FIRE_DATA_URL
 
-    const [data, setData] = useState([]);
+export function ProvideData({ children }) {
+    const [FireData, setFireData] = useState(DemoFireData);
+    const { county } = useContext(withFilter)
+    console.log(county)
     const location = useLocation()
 
     useEffect(() => {
-        const response = fetch(url)
+        const response = fetch(FIRE_DATA_URL)
             .then((response) => response.text())
             .then((result) => Papa.parse(result, { header: true, }))
             .catch((err) => console.log(err));
         response.then((result) => setData(result.data));
+        
+    }, []);
+    //TODO: Run every one hour
 
-    }, [location]);
-
-    const ContextValues = {data}
+    const ContextValues = { FireData }
 
     return (
         <withData.Provider value={ContextValues}>

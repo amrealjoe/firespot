@@ -1,28 +1,14 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react'
-import {
-    LocalFireDepartmentRounded, FacebookRounded,
-    ShareRounded, LightModeRounded, MapRounded
-} from '@mui/icons-material'
-import MainBox, {
-    Button, HeadBox, IconWrap, Span, Time,
-    Stack, Menu, MenuItem
-} from './components'
+import React, { useContext, useEffect, useState } from 'react'
+import { LocalFireDepartmentRounded, ShareRounded, LightModeRounded, MapRounded} from '@mui/icons-material'
+import MainBox, { Button, HeadBox, IconWrap, Span, Time, Stack} from './components'
 import { Typography } from '@mui/material';
 import { ActiveFireMarker, HotspotMarker } from '../Markers';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import Num2Time from "@helpers/Num2Time"
-import { useMemo } from 'react';
 import { loadAddress } from './helpers';
 import withModal from '@contexts/ProvideModal';
-
-const url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=AIzaSyDNqzma-9F5pvmHORMDbJwUxxIjgo00dW8"
-const api_key = "AIzaSyDNqzma-9F5pvmHORMDbJwUxxIjgo00dW8"
 import { useMediaQuery } from 'react-responsive'
 import { withMaker } from '@contexts/ProvideMarker';
-
-function getCoord(coord) {
-    return { lat, lng }
-}
+const api_key = import.meta.env.VITE_MAP_API_KEY
 
 function Card(props) {
     //STATE VARIABLES
@@ -54,14 +40,19 @@ function Card(props) {
         }
         //TODO: Pass lat and lng to map marker
         //to be display when the button is clicked on the card
-    }, [location.search])
+    }, [location])
 
-
-    // console.log(JSON.stringify(latlng))
+    useEffect(() => {
+        loadAddress(details.latitude, details.longitude, api_key)
+        console.log(addresses)
+        return () => { }
+    }, [])
 
     //HANDLERS
     const handleViewOnMap = (lat, lng) => {
         navigate(`?latlng=${lat},${lng}`)
+        setCtxLat(lat)
+        setCtxLng(lng)
         if (isTabletOrMobile) { openModal() }
     }
 
@@ -77,7 +68,6 @@ function Card(props) {
 
     return (
         <MainBox>
-            {/* {ctxLat + " - " + ctxLng + " - " + zoom} */}
             <HeadBox>
                 {
                     details.status ? (
@@ -99,15 +89,14 @@ function Card(props) {
 
                 &#8226;
                 <Time>
-                    {/* {Num2Time(props?.time)} */}
-                    13:21 pm
+                    {/* {Num2Time(details.acq_time)} */}
                 </Time>
 
             </HeadBox>
 
             <Typography variant='h5'>
                 <small>
-                    {details.address + " "} &#8226; {details.county}
+                    {details.address + " "} &#8226; {details.county} 
                 </small>
             </Typography>
 
@@ -115,7 +104,7 @@ function Card(props) {
 
                 <Button
                     variant='contained'
-                    onClick={() => handleViewOnMap(details.lat, details.lng)}
+                    onClick={() => handleViewOnMap(details.latitude, details.longitude)}
                 >
                     <IconWrap>
                         <MapRounded />

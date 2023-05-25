@@ -1,7 +1,6 @@
 import React, { createContext, useState } from "react";
 import Papa from "papaparse";
-const url =
-  "https://firms.modaps.eosdis.nasa.gov/api/country/csv/72af24ec4f81157ca8296b8e6a449685/VIIRS_SNPP_NRT/LBR/1";
+const url = import.meta.env.VITE_FIRE_DATA_URL;
 
 export const withData = createContext(null);
 

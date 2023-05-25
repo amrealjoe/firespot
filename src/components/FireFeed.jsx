@@ -1,26 +1,14 @@
-import React, {
-    useContext,
-    useMemo, useReducer, useState
-} from 'react'
+import React, { useContext, useMemo, useReducer, useState } from 'react'
 import styled from "styled-components"
 import Card from './firefeed/Card'
 import { Button, CircularProgress, createTheme } from '@mui/material'
 import { ExpandMoreRounded, LocalFireDepartmentRounded, LightModeRounded } from '@mui/icons-material'
 import { HotspotMarker } from './Markers'
 import { withFilter } from '@contexts/ProvideFilter'
-import "./firefeed/firefeed.css"
 import { ButtonGroup, LoadMoreButton } from './firefeed/components'
 import { FilterOption } from './firefeed/FilterOptions'
-const url =
-    "https://firms.modaps.eosdis.nasa.gov/api/country/csv/cdf3746fd8e186717bf4fafb16361b8a/VIIRS_SNPP_NRT/LBR/1";
-const mainURL = "https://firms.modaps.eosdis.nasa.gov/api/country/csv/72af24ec4f81157ca8296b8e6a449685/VIIRS_SNPP_NRT/LBR/3/2023-05-02"
-import Papa from "papaparse";
-import fetchData from '@helpers/fetchData'
-
-const theme = createTheme()
-//JSONS
-import Fire from "@assets/data/Fire.json";
-import NASAFire from "@assets/data/nasafire.json";
+import "./firefeed/firefeed.css"
+import { withData } from '@contexts/ProvideData'
 
 const MainBox = styled.div`
     display: flex;
@@ -58,7 +46,6 @@ function FireFeed() {
     const [empty, setEmpty] = useState(false)
     let option = FilterOption(state.selected)
     const [slice, setSlice] = useState(10)
-    const fireData = fetchData()
 
     const handleShowMore = (e, data) => {
         setShowMore(true)
@@ -74,17 +61,8 @@ function FireFeed() {
         return
     }
 
-    let FireData = useMemo(() => {
-        let _data = Fire.filter((data) => { return data.county == county })
-        if (_data == "") {
-            dispatch({ type: "all" })
-            return Fire
-        }
-        return _data
-    }, [county])
-
-    //FILTER FIREDATA
-    let FilteredData = useMemo(() => FireData.slice(0, slice).filter(option), [FireData, option])
+    const { FireData } = useContext(withData)
+    console.log(FireData)
 
     return (
         <MainBox>
@@ -108,8 +86,8 @@ function FireFeed() {
                 </ButtonGroup>
             </>
             {
-                FilteredData.length > 0 ? (
-                    FilteredData.map((data, key) => (
+                FireData.length > 0 ? (
+                    FireData.map((data, key) => (
                         <Card
                             key={key}
                             status={true}
@@ -123,7 +101,7 @@ function FireFeed() {
             }
 
             {
-                !empty && Fire.length > 5 && (
+                !empty && FireData.length > 5 && (
                     <LoadMoreButton onClick={(e) => { handleShowMore(e, Fire) }}>
                         {
                             showMore ? <><CircularProgress sx={{ color: "white" }} /></> :

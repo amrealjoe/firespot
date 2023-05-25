@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import styled from "styled-components"
 import { Container } from '@mui/material';
 import MediaQuery from 'react-responsive'
-
 //CUSTOM COMPONENTS
 import Footer from '@/Footer';
 import Header from '@/Header';
@@ -18,6 +17,7 @@ const MainBox = styled(Container)`
 
 
 function Home() {
+    
     return (
         <>
             <MainBox maxWidth={'lg'}>

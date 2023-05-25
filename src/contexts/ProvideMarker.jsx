@@ -22,6 +22,8 @@ export function ProvideMarker({ children }) {
         setCtxCenter
     }
   return (
-    <withMaker.Provider value={VALUES}>{children}</withMaker.Provider>
+    <withMaker.Provider value={VALUES}>
+      {children}
+    </withMaker.Provider>
   )
 }

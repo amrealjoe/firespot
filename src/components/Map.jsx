@@ -9,6 +9,7 @@ import { useLocation } from 'react-router-dom'
 import fetchData from '@helpers/fetchData'
 import { LocalFireDepartment } from '@mui/icons-material'
 import { withMaker } from '@contexts/ProvideMarker'
+import { withData } from '@contexts/ProvideData'
 
 
 //STYLED COMPONENTS
@@ -34,37 +35,43 @@ function Map() {
     const { isLoaded } = useLoadScript({ googleMapsApiKey: API_KEY });
     const onLoad = useCallback(function callback(map) { setMap(map); }, []);
     if (!isLoaded) { return <Spinner />; }
-    const fireData = fetchData()
+
+    const { FireData } = useContext(withData)
+
     const { zoom,
         ctxLat,
         ctxLng,
-        ctxCenter, } = useContext(withMaker)
+        ctxCenter,
+        setCtxCenter
+    } = useContext(withMaker)
+
+    setCtxCenter({ lat: ctxLat, lng: ctxLng })
 
     return (
         <MapBox>
+            { ctxLat + ctxLng}
             <GoogleMap
                 mapContainerStyle={ContainerStyle}
                 center={ctxCenter.lat ? ctxCenter : center}
                 zoom={zoom}
                 onLoad={onLoad}
             > {
-                    ctxLat ? (<><Marker
-                        // key={key}
+                    ctxCenter.lat ? (<><Marker
                         position={{
-                            lat: parseFloat(ctxLat),
-                            lng: parseFloat(ctxLng)
+                            lat: parseInt(ctxLat),
+                            lng: parseInt(ctxLng)
                         }}
-                        icon={<LocalFireDepartment />}
+                        // icon={<LocalFireDepartment />}
+                        icon={""}
                     /></>) :
                         (fireData.map((marker, key) => (
                             <Marker
                                 key={key}
-
                                 position={{
-                                    lat: parseFloat(marker.latitube),
-                                    lng: parseFloat(marker.longitube)
+                                    lat: parseInt(marker.latitube),
+                                    lng: parseInt(marker.longitube)
                                 }}
-                                icon={<LocalFireDepartment />}
+                                icon={""}
                             />
                         )))
                 }

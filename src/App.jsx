@@ -10,8 +10,8 @@ import { ProvideMarker } from '@contexts/ProvideMarker'
 function App() {
 
   return (
-    <ProvideData>
-      <ProvideFilter>
+    <ProvideFilter>
+      <ProvideData>
         <ProvideModal>
           <Navigation />
           <ProvideMarker>
@@ -21,8 +21,8 @@ function App() {
             <Outlet />
           </ProvideMarker>
         </ProvideModal>
-      </ProvideFilter>
-    </ProvideData>
+      </ProvideData>
+    </ProvideFilter>
 
   )
 }

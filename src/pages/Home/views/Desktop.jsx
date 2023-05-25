@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import Grid from '@mui/material/Grid';
+import { useFetcher, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
 //CUSTOM COMPONENTS
 import FireFeed from '@/FireFeed';
@@ -22,6 +23,10 @@ const MapBox = styled.div`
 
 function DesktopView() {
 
+    
+    
+    
+
     return (
         <Grid container spacing={1}>
             <Grid item xs={5} >
@@ -31,7 +36,7 @@ function DesktopView() {
             </Grid>
             <Grid item xs={7}>
                 <MapBox>
-                    <Map />
+                    <Map lat={"" }  lng={""}/>
                 </MapBox>
             </Grid>
         </Grid>
