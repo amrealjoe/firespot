@@ -21,7 +21,7 @@ export function ProvideData({ children }) {
             .then((response) => response.text())
             .then((result) => Papa.parse(result, { header: true, }))
             .catch((err) => console.log(err));
-        response.then((result) => setData(result.data));
+        response.then((result) => setFireData(result.data));
         
     }, []);
     //TODO: Run every one hour

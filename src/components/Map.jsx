@@ -2,7 +2,7 @@ import React, { useState, useCallback, useContext, useEffect } from 'react'
 import styled from 'styled-components'
 import "./css/maps.css"
 //TODO: use .env variable for api key
-const API_KEY = "AIzaSyDNqzma-9F5pvmHORMDbJwUxxIjgo00dW8"
+const API_KEY = import.meta.env.VITE_MAP_API_KEY
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api'
 import Spinner from "@/Spinner"
 import { useLocation } from 'react-router-dom'
@@ -35,43 +35,56 @@ function Map() {
     const { isLoaded } = useLoadScript({ googleMapsApiKey: API_KEY });
     const onLoad = useCallback(function callback(map) { setMap(map); }, []);
     if (!isLoaded) { return <Spinner />; }
-
+    // const { zoom, setZoom, ctxLat, setCtxLat, ctxLng, setCtxLng, ctxCenter, setCtxCenter } = useContext(withMaker)
     const { FireData } = useContext(withData)
+    const [lat, setLat] = useState(6.428055)
+    const [lng, setLng] = useState(-9.429499)
+    const [zoom, setZoom] = useState(7.5)
+    const [center, setCenter] = useState({ lat: 6.428055,lng: -9.429499})
+    let latlng
 
-    const { zoom,
-        ctxLat,
-        ctxLng,
-        ctxCenter,
-        setCtxCenter
-    } = useContext(withMaker)
+    useEffect(() => {
+        const s_param = searchParams.get("latlng")
+        if (s_param) {
+            latlng = s_param.split(",")
+            setLat(latlng[0])
+            setLng(latlng[1])
+            setCenter({lat: latlng[0], lng: latlng[1]})
+            setZoom(15)
+        } else {
+            setZoom(7.5)
+        }
+        //TODO: Pass lat and lng to map marker
+        //to be display when the button is clicked on the card
+    }, [location])
 
-    setCtxCenter({ lat: ctxLat, lng: ctxLng })
+    
+
 
     return (
         <MapBox>
             { ctxLat + ctxLng}
             <GoogleMap
                 mapContainerStyle={ContainerStyle}
-                center={ctxCenter.lat ? ctxCenter : center}
+                center={center}
                 zoom={zoom}
                 onLoad={onLoad}
             > {
-                    ctxCenter.lat ? (<><Marker
+                    latlng ? (<><Marker
                         position={{
-                            lat: parseInt(ctxLat),
-                            lng: parseInt(ctxLng)
+                            lat: parseInt(lat),
+                            lng: parseInt(lng)
                         }}
-                        // icon={<LocalFireDepartment />}
-                        icon={""}
+                        icon={<LocalFireDepartment />}
                     /></>) :
-                        (fireData.map((marker, key) => (
+                        (FireData.map((marker, key) => (
                             <Marker
                                 key={key}
                                 position={{
-                                    lat: parseInt(marker.latitube),
-                                    lng: parseInt(marker.longitube)
+                                    lat: parseInt(marker.lat),
+                                    lng: parseInt(marker.lng)
                                 }}
-                                icon={""}
+                                icon={<LocalFireDepartment />}
                             />
                         )))
                 }

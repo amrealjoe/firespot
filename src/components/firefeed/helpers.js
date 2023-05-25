@@ -1,5 +1,3 @@
-
-
 export const loadAddress = async (lat, lng, api_key) => {
   const response = await fetch(
     `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${api_key}`
@@ -8,5 +6,15 @@ export const loadAddress = async (lat, lng, api_key) => {
     .then((result) => result)
     .catch((err) => console.log(err));
   const { results } = response;
-  return results;
+  const { address_components } = results[0];
+  console.log(address_components)
+  let city = address_components[1]['long_name'];
+  const county = address_components[3]['long_name'];
+  const country = address_components[4]['long_name'];
+  const address = { city, county, country };
+  //TODO:
+  /**
+   * return the locality,administrative_area_level_1 and country
+   */
+  return address;
 };

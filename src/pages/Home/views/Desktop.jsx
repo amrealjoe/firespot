@@ -23,10 +23,6 @@ const MapBox = styled.div`
 
 function DesktopView() {
 
-    
-    
-    
-
     return (
         <Grid container spacing={1}>
             <Grid item xs={5} >

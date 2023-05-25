@@ -19,33 +19,11 @@ function Card(props) {
     const navigate = useNavigate()
     const [addresses, setAddresses] = useState([])
     const location = useLocation()
-    const {
-        zoom,
-        setZoom,
-        ctxLat,
-        setCtxLat,
-        ctxLng,
-        setCtxLng } = useContext(withMaker)
+    
 
     useEffect(() => {
-        const s_param = searchParams.get("latlng")
-        let latlng
-        if (s_param) {
-            latlng = s_param.split(",")
-            setCtxLat(latlng[0])
-            setCtxLng(latlng[1])
-            setZoom(15)
-        } else {
-            setZoom(7.5)
-        }
-        //TODO: Pass lat and lng to map marker
-        //to be display when the button is clicked on the card
-    }, [location])
-
-    useEffect(() => {
-        loadAddress(details.latitude, details.longitude, api_key)
+        loadAddress(details.lat, details.lng, api_key)
         console.log(addresses)
-        return () => { }
     }, [])
 
     //HANDLERS
@@ -97,6 +75,7 @@ function Card(props) {
             <Typography variant='h5'>
                 <small>
                     {details.address + " "} &#8226; {details.county} 
+                    {/** address will be used here */}
                 </small>
             </Typography>
 
