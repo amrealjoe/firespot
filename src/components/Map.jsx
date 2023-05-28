@@ -51,7 +51,7 @@ function Map() {
     let content;
 
     if (location.search) {
-        <GoogleMap
+        content = (<GoogleMap
             mapContainerStyle={ContainerStyle}
             center={center}
             zoom={zoom}
@@ -64,9 +64,9 @@ function Map() {
                 }}
                 icon={<LocalFireDepartment />}
             />
-        </GoogleMap>
+        </GoogleMap>)
     } else {
-        <GoogleMap
+        content = (<GoogleMap
             mapContainerStyle={ContainerStyle}
             center={center}
             zoom={zoom}
@@ -82,7 +82,7 @@ function Map() {
                     icon={<LocalFireDepartment />}
                 />
             ))}
-        </GoogleMap >
+        </GoogleMap >)
     }
 
     return (<MapBox> {content}</MapBox>)
