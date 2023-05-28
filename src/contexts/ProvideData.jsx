@@ -11,10 +11,8 @@ export const withData = createContext(null)
 const FIRE_DATA_URL = import.meta.env.VITE_FIRE_DATA_URL
 
 export function ProvideData({ children }) {
-    const [FireData, setFireData] = useState(DemoFireData);
     const { county } = useContext(withFilter)
-    console.log(county)
-    const location = useLocation()
+    const [FireData, setFireData] = useState(DemoFireData);
 
     useEffect(() => {
         const response = fetch(FIRE_DATA_URL)

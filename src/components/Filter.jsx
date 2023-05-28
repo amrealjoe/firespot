@@ -37,7 +37,7 @@ const ShowMore = styled(MuiButton)`
 `
 
 function Filter() {
-
+    //TODO: remove commented lines
     // const initCounty = window.localStorage.getItem('fire_county') ? window.localStorage.getItem('fire_county') : "Monsterrado"
     // const [county, setCounty] = useState(initCounty)
     const { county, setCounty } = useContext(withFilter)

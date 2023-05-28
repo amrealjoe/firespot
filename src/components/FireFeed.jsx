@@ -62,7 +62,6 @@ function FireFeed() {
     }
 
     const { FireData } = useContext(withData)
-    console.log(FireData)
 
     return (
         <MainBox>

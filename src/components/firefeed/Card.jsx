@@ -1,6 +1,6 @@
-import React, { useContext } from 'react'
-import { LocalFireDepartmentRounded, ShareRounded, LightModeRounded, MapRounded} from '@mui/icons-material'
-import MainBox, { Button, HeadBox, IconWrap, Span, Time, Stack} from './components'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
+import { LocalFireDepartmentRounded, ShareRounded, LightModeRounded, MapRounded } from '@mui/icons-material'
+import MainBox, { Button, HeadBox, IconWrap, Span, Time, Stack } from './components'
 import { Typography } from '@mui/material';
 import { ActiveFireMarker, HotspotMarker } from '../Markers';
 import { useNavigate } from 'react-router-dom';
@@ -15,7 +15,11 @@ function Card(props) {
     const isTabletOrMobile = useMediaQuery({ maxWidth: 1224 })
     const { openModal } = useContext(withModal)
     const navigate = useNavigate()
-    const [address, setAddress] = useState(getAddress(details.lat, details.lng, api_key))
+    const [address, setAddress] = useState({
+        city: "",
+        county: "",
+        country: ""
+    })
 
 
     //HANDLERS
@@ -31,8 +35,26 @@ function Card(props) {
         })
     }
 
+    useEffect(() => {
+        async function fetchAddress() {
+            const response = await fetch(
+                `https://maps.googleapis.com/maps/api/geocode/json?latlng=${details.lat},${details.lng}&key=${api_key}`
+            )
+                .then((response) => response.json())
+                .then((result) => result)
+                .catch((err) => console.error(err));
 
-
+            const { results } = response;
+            const { address_components } = results[0];
+            const { long_name: city } = address_components[1];
+            const { long_name: county } = address_components[3];
+            const { long_name: country } = address_components[4];
+            setAddress({ city, county, country });
+        }
+        fetchAddress()
+    }, [])
+    //TODO: remove log
+    console.log(address)
 
     return (
         <MainBox>
@@ -63,10 +85,11 @@ function Card(props) {
             </HeadBox>
 
             <Typography variant='h5'>
-                <small>
-                    {details.address + " "} &#8226; {details.county} 
-                    {/** address will be used here */}
-                </small>
+                {
+                    address.city
+                        ? <small>{address.city + " "} &#8226; {address.county}</small>
+                        : <small>Loading fire location...</small>
+                }
             </Typography>
 
             <Stack>

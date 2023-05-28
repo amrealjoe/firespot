@@ -10,7 +10,7 @@ import fetchData from '@helpers/fetchData'
 import { LocalFireDepartment } from '@mui/icons-material'
 import { withMaker } from '@contexts/ProvideMarker'
 import { withData } from '@contexts/ProvideData'
-
+import { useSearchParams } from 'react-router-dom'
 
 //STYLED COMPONENTS
 const MapBox = styled.div`
@@ -23,75 +23,70 @@ const ContainerStyle = {
     height: '105%'
 };
 
-const center = {
-    lat: 6.428055,
-    lng: -9.429499
-};
-
-// const zoom = 7.5
-
 function Map() {
-    const [map, setMap] = useState(null);
-    const { isLoaded } = useLoadScript({ googleMapsApiKey: API_KEY });
-    const onLoad = useCallback(function callback(map) { setMap(map); }, []);
-    if (!isLoaded) { return <Spinner />; }
-    // const { zoom, setZoom, ctxLat, setCtxLat, ctxLng, setCtxLng, ctxCenter, setCtxCenter } = useContext(withMaker)
     const { FireData } = useContext(withData)
+    const { isLoaded } = useLoadScript({ googleMapsApiKey: API_KEY });
     const [lat, setLat] = useState(6.428055)
     const [lng, setLng] = useState(-9.429499)
     const [zoom, setZoom] = useState(7.5)
-    const [center, setCenter] = useState({ lat: 6.428055,lng: -9.429499})
-    let latlng
+    const [center, setCenter] = useState({ lat: 6.428055, lng: -9.429499 })
+    const [searchParams, SetURLSearchParams] = useSearchParams()
+    if (!isLoaded) { return <Spinner />; }
+    let location = useLocation()
+    console.log(location.search)
 
     useEffect(() => {
         const s_param = searchParams.get("latlng")
         if (s_param) {
-            latlng = s_param.split(",")
+            let latlng = s_param.split(",")
             setLat(latlng[0])
             setLng(latlng[1])
-            setCenter({lat: latlng[0], lng: latlng[1]})
+            setCenter({ lat: latlng[0], lng: latlng[1] })
             setZoom(15)
-        } else {
-            setZoom(7.5)
         }
         //TODO: Pass lat and lng to map marker
         //to be display when the button is clicked on the card
-    }, [location])
+    }, [location.search])
 
-    
+    let content;
 
+    if (location.search) {
+        <GoogleMap
+            mapContainerStyle={ContainerStyle}
+            center={center}
+            zoom={zoom}
+            onLoad={onLoad}
+        >
+            <Marker
+                position={{
+                    lat: parseInt(lat),
+                    lng: parseInt(lng)
+                }}
+                icon={<LocalFireDepartment />}
+            />
+        </GoogleMap>
+    } else {
+        <GoogleMap
+            mapContainerStyle={ContainerStyle}
+            center={center}
+            zoom={zoom}
+            onLoad={onLoad}
+        >
+            {FireData.map((marker, key) => (
+                <Marker
+                    key={key}
+                    position={{
+                        lat: parseInt(marker.lat),
+                        lng: parseInt(marker.lng)
+                    }}
+                    icon={<LocalFireDepartment />}
+                />
+            ))}
+        </GoogleMap >
+    }
 
-    return (
-        <MapBox>
-            { ctxLat + ctxLng}
-            <GoogleMap
-                mapContainerStyle={ContainerStyle}
-                center={center}
-                zoom={zoom}
-                onLoad={onLoad}
-            > {
-                    latlng ? (<><Marker
-                        position={{
-                            lat: parseInt(lat),
-                            lng: parseInt(lng)
-                        }}
-                        icon={<LocalFireDepartment />}
-                    /></>) :
-                        (FireData.map((marker, key) => (
-                            <Marker
-                                key={key}
-                                position={{
-                                    lat: parseInt(marker.lat),
-                                    lng: parseInt(marker.lng)
-                                }}
-                                icon={<LocalFireDepartment />}
-                            />
-                        )))
-                }
-            </GoogleMap>
-        </MapBox>
-
-    )
+    return (<MapBox> {content}</MapBox>)
 }
 
 export default Map
+
