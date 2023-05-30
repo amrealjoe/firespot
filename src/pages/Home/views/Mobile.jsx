@@ -16,8 +16,8 @@ import withModal from '@contexts/ProvideModal';
 
 //CUSTOM COMPONENTS
 import FireFeed from '@/FireFeed';
-import MobileMap from "@/MobileMap"
-import Map from '@/Map';
+// import MobileMap from "@/MobileMap"
+// import Map from '@/Map';
 
 //STYLED COMPONENTS
 const Container = styled.div`

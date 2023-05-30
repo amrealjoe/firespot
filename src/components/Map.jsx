@@ -23,16 +23,19 @@ const ContainerStyle = {
     height: '105%'
 };
 
+
+
 function Map() {
     const { FireData } = useContext(withData)
     const { isLoaded } = useLoadScript({ googleMapsApiKey: API_KEY });
+    if (!isLoaded) { return <Spinner />; }
     const [lat, setLat] = useState(6.428055)
     const [lng, setLng] = useState(-9.429499)
     const [zoom, setZoom] = useState(7.5)
     const [center, setCenter] = useState({ lat: 6.428055, lng: -9.429499 })
     const [searchParams, SetURLSearchParams] = useSearchParams()
-    if (!isLoaded) { return <Spinner />; }
     let location = useLocation()
+    //TODO: remove log
     console.log(location.search)
 
     useEffect(() => {
@@ -41,8 +44,8 @@ function Map() {
             let latlng = s_param.split(",")
             setLat(latlng[0])
             setLng(latlng[1])
-            setCenter({ lat: latlng[0], lng: latlng[1] })
             setZoom(15)
+            setCenter({ lat: latlng[0], lng: latlng[1] })
         }
         //TODO: Pass lat and lng to map marker
         //to be display when the button is clicked on the card

@@ -15,11 +15,7 @@ function Card(props) {
     const isTabletOrMobile = useMediaQuery({ maxWidth: 1224 })
     const { openModal } = useContext(withModal)
     const navigate = useNavigate()
-    const [address, setAddress] = useState({
-        city: "",
-        county: "",
-        country: ""
-    })
+    const [address, setAddress] = useState({city: "", county: "", country: ""})
 
 
     //HANDLERS

@@ -5,8 +5,8 @@ import { useFetcher, useLocation, useNavigate, useSearchParams } from 'react-rou
 
 //CUSTOM COMPONENTS
 import FireFeed from '@/FireFeed';
-import Map from "@/Map"
-
+// import Map from "@/Map"
+import GMap from '@/GoogleMap';
 //STYLED COMPONENTS
 const FeedBox = styled.div`
     background-color: transparent;
@@ -32,7 +32,8 @@ function DesktopView() {
             </Grid>
             <Grid item xs={7}>
                 <MapBox>
-                    <Map lat={"" }  lng={""}/>
+                    {/* <Map lat={""} lng={""} /> */}
+                    <GMap />
                 </MapBox>
             </Grid>
         </Grid>
