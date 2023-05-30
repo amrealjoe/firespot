@@ -12,7 +12,7 @@ const FIRE_DATA_URL = import.meta.env.VITE_FIRE_DATA_URL
 
 export function ProvideData({ children }) {
     const { county } = useContext(withFilter)
-    const [FireData, setFireData] = useState(DemoFireData);
+    const [FireData, setFireData] = useState(DemoNASAFireData);
 
     useEffect(() => {
         const response = fetch(FIRE_DATA_URL)

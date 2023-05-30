@@ -50,15 +50,15 @@ export default function GMap() {
             <GoogleMap
                 id="marker-example"
                 mapContainerStyle={mapContainerStyle}
-                zoom={zoom}
+                zoom={2}
                 center={centers[0]}
             >
             
                 <Marker
                     icon={"https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"}
-                    position={centers[1]}
+                    position={centers[0]}
                 />
-                {/* {FireData.map((marker, key) => (
+                {FireData.forEach((marker, key) => (
                     <Marker
                         key={key}
                         position={{
@@ -66,9 +66,8 @@ export default function GMap() {
                             lng: parseInt(marker.lng)
                         }}
                         icon={"https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"}
-
                     />
-                ))} */}
+                ))}
                 
             </GoogleMap>
         </MapBox>
