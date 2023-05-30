@@ -18,6 +18,7 @@ import withModal from '@contexts/ProvideModal';
 import FireFeed from '@/FireFeed';
 // import MobileMap from "@/MobileMap"
 // import Map from '@/Map';
+import GMap from '@/GoogleMap';
 
 //STYLED COMPONENTS
 const Container = styled.div`
@@ -81,7 +82,7 @@ function MobileView() {
                         </IconButton>
                     </DialogTitle>
                     <DialogContent>
-                        <Map />
+                        <GMap />
                     </DialogContent>
                 </Dialog>
             </MediaQuery>

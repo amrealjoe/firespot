@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import "./css/maps.css"
 //TODO: use .env variable for api key
 const API_KEY = import.meta.env.VITE_MAP_API_KEY
-import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api'
+import { GoogleMap, useLoadScript, Marker, LoadScript } from '@react-google-maps/api'
 import Spinner from "@/Spinner"
 import { useLocation } from 'react-router-dom'
 import fetchData from '@helpers/fetchData'
@@ -18,12 +18,23 @@ const MapBox = styled.div`
     height: 500px;
 `
 
-const ContainerStyle = {
+const mapContainerStyle = {
     width: '101%',
     height: '105%'
 };
 
-const center = { lat: 6.428055, lng: -9.429499 }
+const centers = [{
+    lat: 6.428055,
+    lng: -9.429499
+},
+{
+    lat: 37.672,
+    lng: -122.219
+},
+{
+    lat: 37.832,
+    lng: -122.424
+}];
 const lat = 6.428055
 const lng = -9.429499
 const zoom = 7.5
@@ -31,20 +42,35 @@ const zoom = 7.5
 export default function GMap() {
     const { isLoaded } = useLoadScript({ googleMapsApiKey: API_KEY });
     if (!isLoaded) { return <Spinner />; }
-  return (
-      <GoogleMap
-          mapContainerStyle={ContainerStyle}
-          center={center}
-          zoom={zoom}
-        //   onLoad={onLoad}
-      >
-          <Marker
-              position={{
-                  lat: parseInt(lat),
-                  lng: parseInt(lng)
-              }}
-              icon={""}
-          />
-      </GoogleMap>
-  )
+    const { FireData } = useContext(withData)
+    console.log(FireData)
+    
+    return (
+        <MapBox>
+            <GoogleMap
+                id="marker-example"
+                mapContainerStyle={mapContainerStyle}
+                zoom={zoom}
+                center={centers[0]}
+            >
+            
+                <Marker
+                    icon={"https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"}
+                    position={centers[1]}
+                />
+                {/* {FireData.map((marker, key) => (
+                    <Marker
+                        key={key}
+                        position={{
+                            lat: parseInt(marker.lat),
+                            lng: parseInt(marker.lng)
+                        }}
+                        icon={"https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"}
+
+                    />
+                ))} */}
+                
+            </GoogleMap>
+        </MapBox>
+    )
 }
