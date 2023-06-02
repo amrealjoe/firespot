@@ -50,7 +50,7 @@ export default function GMap() {
             <GoogleMap
                 id="marker-example"
                 mapContainerStyle={mapContainerStyle}
-                zoom={2}
+                zoom={7.5}
                 center={centers[0]}
             >
             
