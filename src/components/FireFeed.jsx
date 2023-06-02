@@ -86,7 +86,7 @@ function FireFeed() {
             </>
             {
                 FireData.length > 0 ? (
-                    FireData.map((data, key) => (
+                    FireData.forEach((data, key) => (
                         <Card
                             key={key}
                             status={true}

@@ -62,8 +62,8 @@ export default function GMap() {
                     <Marker
                         key={key}
                         position={{
-                            lat: parseInt(marker.lat),
-                            lng: parseInt(marker.lng)
+                            lat: parseInt(marker.latitube),
+                            lng: parseInt(marker.longitube)
                         }}
                         icon={"https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"}
                     />

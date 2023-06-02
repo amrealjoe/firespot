@@ -12,10 +12,11 @@ import { getAddress } from '@helpers/getAddress';
 function Card(props) {
     //STATE VARIABLES
     const { details } = props
+    console.log(details)
     const isTabletOrMobile = useMediaQuery({ maxWidth: 1224 })
     const { openModal } = useContext(withModal)
     const navigate = useNavigate()
-    const [address, setAddress] = useState({city: "", county: "", country: ""})
+    const [address, setAddress] = useState({ city: "", county: "", country: "" })
 
 
     //HANDLERS
@@ -34,7 +35,7 @@ function Card(props) {
     useEffect(() => {
         async function fetchAddress() {
             const response = await fetch(
-                `https://maps.googleapis.com/maps/api/geocode/json?latlng=${details.lat},${details.lng}&key=${api_key}`
+                `https://maps.googleapis.com/maps/api/geocode/json?latlng=${details.latitube},${details.longitube}&key=${api_key}`
             )
                 .then((response) => response.json())
                 .then((result) => result)
@@ -92,7 +93,7 @@ function Card(props) {
 
                 <Button
                     variant='contained'
-                    onClick={() => handleViewOnMap(details.lat, details.lng)}
+                    onClick={() => handleViewOnMap(details.latitube, details.longitube)}
                 >
                     <IconWrap>
                         <MapRounded />
