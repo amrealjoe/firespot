@@ -43,7 +43,9 @@ export default function GMap() {
     const { isLoaded } = useLoadScript({ googleMapsApiKey: API_KEY });
     if (!isLoaded) { return <Spinner />; }
     const { FireData } = useContext(withData)
-    console.log(FireData)
+    //convert to keys array
+    const FireKeys = Object.keys(FireData)
+    console.log(FireKeys)
     
     return (
         <MapBox>
@@ -58,7 +60,7 @@ export default function GMap() {
                     icon={"https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"}
                     position={centers[0]}
                 />
-                {FireData.forEach((marker, key) => (
+                {/* {FireData.forEach((marker, key) => (
                     <Marker
                         key={key}
                         position={{
@@ -67,7 +69,7 @@ export default function GMap() {
                         }}
                         icon={"https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"}
                     />
-                ))}
+                ))} */}
                 
             </GoogleMap>
         </MapBox>
