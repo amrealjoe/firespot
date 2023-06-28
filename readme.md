@@ -1,1 +1,1 @@
-### Real-time fire desaster tracker
+### Real-time fire disaster tracker
